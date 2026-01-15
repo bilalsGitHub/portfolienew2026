@@ -46,10 +46,7 @@ export const Resume = () => {
     ],
   };
 
-  const languages = [
-    { name: t.resume.langGerman, level: t.resume.native },
-    { name: t.resume.langEnglish, level: t.resume.fluent },
-  ];
+  const languages = [t.resume.langGerman, t.resume.langEnglish];
 
   const setRef = (id: string) => (el: HTMLDivElement | null) => {
     sectionRefs.current[id] = el;
@@ -239,9 +236,7 @@ export const Resume = () => {
               <h3>{t.resume.languages}</h3>
               <ul className="additional-list">
                 {languages.map((lang, i) => (
-                  <li key={i}>
-                    <strong>{lang.name}:</strong> {lang.level}
-                  </li>
+                  <li key={i}>{lang}</li>
                 ))}
               </ul>
             </div>

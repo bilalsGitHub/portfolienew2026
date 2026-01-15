@@ -101,7 +101,7 @@ export const Header = ({ activeSection, onSectionChange }: HeaderProps) => {
             aria-label="Toggle language"
             title={language === 'de' ? 'Switch to English' : 'Auf Deutsch wechseln'}
           >
-            {language === 'de' ? '🇬🇧' : '🇩🇪'}
+            {language === 'de' ? 'English' : 'Deutsch'}
           </button>
           <button
             className="theme-toggle"
