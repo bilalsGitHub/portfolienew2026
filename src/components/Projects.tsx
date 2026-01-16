@@ -98,8 +98,6 @@ const projects: Project[] = [
         features: ["Server Components", "Client Components", "Optimistic UI", "React Memoization"]
       }
     },
-    demoUrl: "https://habits-demo.example.com",
-    githubUrl: "https://github.com",
     images: ["/habitapp.png"]
   },
   {
@@ -167,8 +165,6 @@ const projects: Project[] = [
         features: ["Canvas-Animation (requestAnimationFrame)", "Echtzeit-Zustandsverwaltung", "Responsives Design", "Tastaturkürzel (F11, ESC)"]
       }
     },
-    demoUrl: "https://eyetracking-demo.example.com",
-    githubUrl: "https://github.com",
     images: ["/eyetracking1.png"]
   },
   {
@@ -239,7 +235,6 @@ const projects: Project[] = [
       }
     },
     demoUrl: "https://blackfocusvercel.vercel.app/",
-    githubUrl: "https://github.com",
     images: ["/blackfocus1.png", "/blackfocus2.png", "/blackfocus3.png"]
   },
   {
@@ -306,9 +301,7 @@ const projects: Project[] = [
         backend: ["OpenAI GPT API (für KI-Analyse)", "LocalStorage API", "Client-seitige Verarbeitung"],
         features: ["KI-Satzanalyse", "Automatisches Übersetzungs-Caching", "Kategorienverwaltung", "Fortschrittsverfolgung", "Schwierigkeitsstufen"]
       }
-    },
-    demoUrl: "https://dilogren-demo.example.com",
-    githubUrl: "https://github.com"
+    }
   },
   {
     en: {
@@ -403,8 +396,6 @@ const projects: Project[] = [
         features: ["MediaRecorder API", "Lokaler Speicher", "Cloud-Sync", "PWA-Bereit"]
       }
     },
-    demoUrl: "https://mediflow-demo.example.com",
-    githubUrl: "https://github.com",
     images: ["/voiceapp1.png", "/voiceapp2.png", "/voiceapp3.png"]
   }
 ];
@@ -638,6 +629,16 @@ export const Projects = () => {
                 <div className="project-header">
                   <div className="project-title-section">
                     <h3 className="project-title">{projectData.name}</h3>
+                    {project.demoUrl && (
+                      <a 
+                        href={project.demoUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="project-url"
+                      >
+                        {project.demoUrl}
+                      </a>
+                    )}
                     <p className="project-tagline">{projectData.tagline}</p>
                   </div>
                 </div>

@@ -15,7 +15,6 @@ const skills: Skill[] = [
   { name: "HTML5", category: "Frontend" },
   { name: "CSS3", category: "Frontend" },
   { name: "TailwindCSS", category: "Frontend" },
-  { name: "Redux", category: "Frontend" },
   { name: "Python (Scripting, Automation)", category: "Tools" },
   { name: "Node.js", category: "Backend" },
   { name: "SQL", category: "Backend" },

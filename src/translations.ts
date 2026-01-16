@@ -73,7 +73,7 @@ export const translations = {
             'Durchführung von UI-Optimierungen, Performance-Verbesserungen und Fehlerbehebungen',
             'Beitrag zur Modernisierung des Annotation-Workflows (Navigation, UI-Komponenten, Bildanzeige, Responsiveness und viel mehr)',
           ],
-          techstack: 'React, TypeScript, HTML, CSS, JavaScript, Git, GitLab, Python, SQL, Redux',
+          techstack: 'React, TypeScript, HTML, CSS, JavaScript, Git, GitLab, Python, SQL',
         },
         {
           title: 'Bachelor Thesis',
@@ -85,7 +85,7 @@ export const translations = {
             'Einsatz von Reverse Image Search, Webscraping & KI-Textanalyse',
             'Durchführung einer Usability-Studie (SUS-Score: 86)',
           ],
-          techstack: 'React, TypeScript, HTML, CSS, JavaScript, Redux, Webscraping, AI, LM',
+          techstack: 'React, TypeScript, HTML, CSS, JavaScript, Webscraping, AI',
         },
         {
           title: 'Praktikum – Shop Development',
@@ -190,7 +190,7 @@ export const translations = {
             'Execution of UI optimizations, performance improvements, and bug fixes',
             'Contribution to the modernization of the annotation workflow (Navigation, UI components, image display, responsiveness, and much more)',
           ],
-          techstack: 'React, TypeScript, HTML, CSS, JavaScript, Git, GitLab, Python, SQL, Redux',
+          techstack: 'React, TypeScript, HTML, CSS, JavaScript, Git, GitLab, Python, SQL',
         },
         {
           title: 'Bachelor Thesis',
@@ -202,7 +202,7 @@ export const translations = {
             'Use of Reverse Image Search, Webscraping & AI text analysis',
             'Conducted a usability study (SUS Score: 86)',
           ],
-          techstack: 'React, TypeScript, HTML, CSS, JavaScript, Redux, Webscraping, AI, LM',
+          techstack: 'React, TypeScript, HTML, CSS, JavaScript, Webscraping, AI',
         },
         {
           title: 'Internship – Shop Development',

@@ -160,7 +160,7 @@
   padding: 0.8rem 2rem;
   font-size: 1rem;
   font-weight: 600;
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  background: #60a5fa;
   color: white;
   border: none;
   border-radius: 50px;
@@ -172,6 +172,7 @@
 .hero-cta:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 20px var(--shadow-lg);
+  background: #1e40af;
 }
 
 .hero-cta:active {

@@ -177,14 +177,16 @@ export const Resume = () => {
           }`}>
           <h2 className="section-title">{t.resume.experience}</h2>
           <div className="timeline">
-            {t.resume.experiences.map((exp, index) => (
-              <div
-                key={index}
-                className={`timeline-item ${
-                  visibleSections.has("resume-experience") ? "visible" : ""
-                }`}
-                style={{ animationDelay: `${index * 0.2}s` }}>
-                <div className="timeline-date">{exp.period}</div>
+            {t.resume.experiences.map((exp, index) => {
+              const isPresent = exp.period.includes('Heute') || exp.period.includes('Present');
+              return (
+                <div
+                  key={index}
+                  className={`timeline-item ${
+                    visibleSections.has("resume-experience") ? "visible" : ""
+                  } ${isPresent ? "current" : ""}`}
+                  style={{ animationDelay: `${index * 0.2}s` }}>
+                  <div className="timeline-date">{exp.period}</div>
                 <div className="timeline-content">
                   <h3>{exp.title}</h3>
                   <p className="timeline-company">{exp.company}</p>
@@ -197,8 +199,9 @@ export const Resume = () => {
                     <strong>{t.projects.techStack}:</strong> {exp.techstack}
                   </p>
                 </div>
-              </div>
-            ))}
+                </div>
+              );
+            })}
           </div>
         </div>
 

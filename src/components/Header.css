@@ -67,18 +67,26 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  background: var(--accent-primary);
   transition: width 0.3s ease;
 }
 
-.nav-list a:hover::after,
-.nav-list a.active::after {
+.nav-list a:hover::after {
   width: 100%;
 }
 
-.nav-list a:hover,
-.nav-list a.active {
+.nav-list a.active::after {
+  width: 100%;
+  background: #1e40af;
+}
+
+.nav-list a:hover {
   color: var(--accent-primary);
+}
+
+.nav-list a.active {
+  color: #1e40af;
+  font-weight: 600;
 }
 
 .menu-toggle {
