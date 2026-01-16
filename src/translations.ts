@@ -11,7 +11,7 @@ export const translations = {
     },
     hero: {
       greeting: 'Hallo, ich bin',
-      title: 'Webentwickler | React-Spezialist | Problemlöser',
+      title: 'Webentwickler',
       description: 'Ich erstelle schöne und funktionale Web-Erlebnisse mit modernen Technologien. Leidenschaftlich für sauberen Code, Benutzererfahrung und kontinuierliches Lernen.',
       contactBtn: 'Kontaktieren Sie mich',
     },
@@ -128,7 +128,7 @@ export const translations = {
     },
     hero: {
       greeting: "Hi, I'm",
-      title: 'Web Developer | React Specialist | Problem Solver',
+      title: 'Web Developer',
       description: 'I create beautiful and functional web experiences with modern technologies. Passionate about clean code, user experience, and continuous learning.',
       contactBtn: 'Contact Me',
     },
