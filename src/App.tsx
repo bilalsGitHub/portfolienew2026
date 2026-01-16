@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { Header } from './components/Header';
@@ -47,6 +48,7 @@ function App() {
             <Contact />
           </main>
           <Footer />
+          <Analytics />
         </div>
       </LanguageProvider>
     </ThemeProvider>
