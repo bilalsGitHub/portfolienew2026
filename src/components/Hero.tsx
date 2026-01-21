@@ -11,6 +11,21 @@ export const Hero = () => {
     }
   };
 
+  const animateText = (text: string, baseDelay: number = 0) => {
+    return text.split('').map((char, index) => (
+      <span
+        key={index}
+        className="falling-letter"
+        style={{ 
+          animationDelay: `${baseDelay + index * 0.02}s`,
+          display: char === ' ' ? 'inline' : 'inline-block'
+        }}
+      >
+        {char === ' ' ? '\u00A0' : char}
+      </span>
+    ));
+  };
+
   return (
     <section id="home" className="hero">
       <div className="hero-container">
@@ -28,13 +43,23 @@ export const Hero = () => {
             />
           </div>
           <div className="hero-text">
-            <p className="hero-greeting">{t.hero.greeting}</p>
-            <h1 className="hero-name">Bilal Hinislioglu</h1>
-            <h2 className="hero-title">{t.hero.title}</h2>
-            <p className="hero-description">
-              {t.hero.description}
+            <p className="hero-greeting">
+              {animateText(t.hero.greeting, 0)}
             </p>
-            <button className="hero-cta" onClick={scrollToContact}>
+            <h1 className="hero-name">
+              {animateText('Bilal Hinislioglu', 0.15)}
+            </h1>
+            <h2 className="hero-title">
+              {animateText(t.hero.title, 0.6)}
+            </h2>
+            <p className="hero-description">
+              {animateText(t.hero.description, 0.9)}
+            </p>
+            <button 
+              className="hero-cta" 
+              onClick={scrollToContact}
+              style={{ animationDelay: '1.8s' }}
+            >
               {t.hero.contactBtn}
             </button>
           </div>

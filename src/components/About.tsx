@@ -74,9 +74,10 @@ export const About = () => {
         <div className="about-content">
           <div className="bio-section">
             <div className="bio-intro">
-              <p className="bio-text">{t.about.bio1}</p>
-              <p className="bio-text">{t.about.bio2}</p>
-              <p className="bio-text">{t.about.bio3}</p>
+              <p className="bio-text" dangerouslySetInnerHTML={{ __html: t.about.bio1 }} />
+              <p className="bio-text" dangerouslySetInnerHTML={{ __html: t.about.bio2 }} />
+              <p className="bio-text" dangerouslySetInnerHTML={{ __html: t.about.bio3 }} />
+              <p className="bio-text" dangerouslySetInnerHTML={{ __html: t.about.bio4 }} />
             </div>
 
             <div className="skills-section">
