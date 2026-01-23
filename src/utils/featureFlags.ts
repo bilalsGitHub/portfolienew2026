@@ -3,6 +3,8 @@
  * Emits feature flags to the DOM for Web Analytics tracking
  */
 
+import { track } from '@vercel/analytics';
+
 export interface FeatureFlags {
   language: string;
   theme: string;
@@ -11,6 +13,24 @@ export interface FeatureFlags {
   expandedFeatures: string[];
   expandedTechStack: string[];
 }
+
+/**
+ * Track a route change in Vercel Analytics
+ * This makes the route appear in the Routes section of Analytics
+ */
+export const trackRoute = (path: string, props?: Record<string, any>) => {
+  // Update URL
+  const fullPath = path.startsWith('/') ? path : `/${path}`;
+  window.history.pushState({}, '', fullPath);
+  
+  // Track as pageview event for Routes section
+  track('pageview', { 
+    path: fullPath,
+    ...props 
+  }, { 
+    flags: getFlagNames() 
+  });
+};
 
 const FLAGS_ATTRIBUTE = 'data-vercel-flags';
 
@@ -87,4 +107,14 @@ export const updateFlag = <K extends keyof FeatureFlags>(
 export const getFlagNames = (): string[] => {
   const flags = getFlags();
   return Object.keys(flags);
+};
+
+/**
+ * Track a button click or interaction
+ */
+export const trackInteraction = (
+  action: string, 
+  props?: Record<string, any>
+) => {
+  track(action, props, { flags: getFlagNames() });
 };

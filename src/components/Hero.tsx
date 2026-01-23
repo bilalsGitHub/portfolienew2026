@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { trackRoute, trackInteraction } from '../utils/featureFlags';
 import './Hero.css';
 
 export const Hero = () => {
@@ -51,6 +52,10 @@ export const Hero = () => {
     const element = document.getElementById('contact');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+      trackRoute('/contact', { 
+        action: 'cta_click',
+        source: 'hero_work_with_me_button'
+      });
     }
   };
 
@@ -58,6 +63,10 @@ export const Hero = () => {
     const element = document.getElementById('projects');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+      trackRoute('/projects', { 
+        action: 'cta_click',
+        source: 'hero_works_tab'
+      });
     }
   };
 
@@ -71,7 +80,13 @@ export const Hero = () => {
 
       <button 
         className="bg-toggle-btn" 
-        onClick={() => setAnimatedBg(!animatedBg)}
+        onClick={() => {
+          const newState = !animatedBg;
+          setAnimatedBg(newState);
+          trackInteraction('hero_background_toggle', { 
+            enabled: newState 
+          });
+        }}
         title={animatedBg ? "Disable animated background" : "Enable animated background"}
       >
         {animatedBg ? '✨' : '💤'}

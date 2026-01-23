@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
+import { trackRoute } from "../utils/featureFlags";
 import "./Resume.css";
 
 export const Resume = () => {
@@ -14,7 +15,18 @@ export const Resume = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setVisibleSections((prev) => new Set([...prev, entry.target.id]));
+            const sectionId = entry.target.id;
+            setVisibleSections((prev) => {
+              const newSet = new Set([...prev, sectionId]);
+              // Track when resume section becomes visible
+              if (!prev.has(sectionId)) {
+                trackRoute(`/resume/${sectionId}`, { 
+                  section: sectionId,
+                  action: 'section_viewed'
+                });
+              }
+              return newSet;
+            });
           }
         });
       },

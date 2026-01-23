@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { track } from '@vercel/analytics';
 import { useLanguage } from '../contexts/LanguageContext';
-import { updateFlag, getFlags } from '../utils/featureFlags';
+import { updateFlag, getFlags, trackRoute, trackInteraction } from '../utils/featureFlags';
 import './Projects.css';
 
 interface Feature {
@@ -416,20 +415,15 @@ const ImageCarousel = ({ images, projectId }: { images: string[]; projectId: str
   const [dragStart, setDragStart] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalIndex, setModalIndex] = useState(0);
-  
-  const updateUrl = (action: string) => {
-    window.history.pushState({}, '', `#project/${projectId}/${action}`);
-    
-    // Track event in Vercel Analytics with current feature flags
-    track(`Project ${action}`, { projectId }, { flags: Object.keys(getFlags()) });
-  };
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % images.length);
+    trackInteraction('carousel_next', { projectId, imageIndex: (currentIndex + 1) % images.length });
   };
 
   const prevSlide = () => {
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    trackInteraction('carousel_prev', { projectId, imageIndex: (currentIndex - 1 + images.length) % images.length });
   };
 
   const goToSlide = (index: number) => {
@@ -487,7 +481,13 @@ const ImageCarousel = ({ images, projectId }: { images: string[]; projectId: str
     setModalIndex(index);
     setIsModalOpen(true);
     document.body.style.overflow = 'hidden';
-    updateUrl('image-view');
+    
+    // Track route for image view
+    trackRoute(`/projects/${projectId}/image/${index + 1}`, { 
+      projectId, 
+      imageIndex: index,
+      action: 'image_view'
+    });
   };
 
   const closeModal = () => {
@@ -496,11 +496,23 @@ const ImageCarousel = ({ images, projectId }: { images: string[]; projectId: str
   };
 
   const nextModal = () => {
-    setModalIndex((prev) => (prev + 1) % images.length);
+    const newIndex = (modalIndex + 1) % images.length;
+    setModalIndex(newIndex);
+    trackRoute(`/projects/${projectId}/image/${newIndex + 1}`, { 
+      projectId, 
+      imageIndex: newIndex,
+      action: 'modal_next'
+    });
   };
 
   const prevModal = () => {
-    setModalIndex((prev) => (prev - 1 + images.length) % images.length);
+    const newIndex = (modalIndex - 1 + images.length) % images.length;
+    setModalIndex(newIndex);
+    trackRoute(`/projects/${projectId}/image/${newIndex + 1}`, { 
+      projectId, 
+      imageIndex: newIndex,
+      action: 'modal_prev'
+    });
   };
 
   useEffect(() => {
@@ -621,22 +633,23 @@ export const Projects = () => {
   const [expandedTechStack, setExpandedTechStack] = useState<Set<number>>(new Set());
   const { language, t } = useLanguage();
 
-  const updateProjectUrl = (projectId: string, action: string) => {
-    window.history.pushState({}, '', `#project/${projectId}/${action}`);
-    
-    // Track event in Vercel Analytics with current feature flags
-    track(`Project ${action}`, { projectId }, { flags: Object.keys(getFlags()) });
-  };
-
   const toggleFeatures = (index: number) => {
     const newSet = new Set(expandedFeatures);
     const projectId = projects[index].id;
+    const projectName = projects[index][language].name;
     
     if (newSet.has(index)) {
       newSet.delete(index);
+      // Track collapse
+      trackInteraction('features_collapse', { projectId, projectName });
     } else {
       newSet.add(index);
-      updateProjectUrl(projectId, 'features');
+      // Track route for features view
+      trackRoute(`/projects/${projectId}/features`, { 
+        projectId, 
+        projectName,
+        action: 'features_expand'
+      });
       
       // Update feature flags
       const expandedIds = Array.from(newSet).map(i => projects[i].id);
@@ -648,12 +661,20 @@ export const Projects = () => {
   const toggleTechStack = (index: number) => {
     const newSet = new Set(expandedTechStack);
     const projectId = projects[index].id;
+    const projectName = projects[index][language].name;
     
     if (newSet.has(index)) {
       newSet.delete(index);
+      // Track collapse
+      trackInteraction('techstack_collapse', { projectId, projectName });
     } else {
       newSet.add(index);
-      updateProjectUrl(projectId, 'tech-stack');
+      // Track route for tech stack view
+      trackRoute(`/projects/${projectId}/tech-stack`, { 
+        projectId, 
+        projectName,
+        action: 'techstack_expand'
+      });
       
       // Update feature flags
       const expandedIds = Array.from(newSet).map(i => projects[i].id);
@@ -682,7 +703,12 @@ export const Projects = () => {
                   // Only track click if it's not on an interactive element
                   const target = e.target as HTMLElement;
                   if (!target.closest('button') && !target.closest('a') && !target.closest('img')) {
-                    updateProjectUrl(project.id, 'view');
+                    // Track route for project view
+                    trackRoute(`/projects/${project.id}`, { 
+                      projectId: project.id, 
+                      projectName: projectData.name,
+                      action: 'project_click'
+                    });
                     
                     // Track viewed projects
                     const flags = getFlags();
@@ -710,7 +736,14 @@ export const Projects = () => {
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="project-url"
-                        onClick={() => updateProjectUrl(project.id, 'demo-link')}
+                        onClick={() => {
+                          trackRoute(`/projects/${project.id}/demo`, { 
+                            projectId: project.id, 
+                            projectName: projectData.name,
+                            demoUrl: project.demoUrl,
+                            action: 'demo_link_click'
+                          });
+                        }}
                       >
                         {project.demoUrl}
                       </a>

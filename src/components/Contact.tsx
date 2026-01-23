@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
+import { trackRoute, trackInteraction } from "../utils/featureFlags";
 import "./Contact.css";
 
 export const Contact = () => {
@@ -18,9 +19,19 @@ export const Contact = () => {
     if (parseInt(answer) === correctAnswer) {
       setShowEmail(true);
       setShowError(false);
+      // Track successful email reveal
+      trackRoute('/contact/email-revealed', { 
+        action: 'email_reveal_success',
+        attempts: 1 
+      });
     } else {
       setShowError(true);
       setShowEmail(false);
+      // Track failed attempt
+      trackInteraction('email_reveal_failed', { 
+        userAnswer: parseInt(answer),
+        correctAnswer 
+      });
     }
   };
 
@@ -57,7 +68,13 @@ export const Contact = () => {
                 )}
               </div>
             ) : (
-              <a href="mailto:bilalhinis@gmail.com" className="email-link">
+              <a 
+                href="mailto:bilalhinis@gmail.com" 
+                className="email-link"
+                onClick={() => trackInteraction('email_clicked', { 
+                  location: 'contact_section' 
+                })}
+              >
                 bilalhinis@gmail.com
               </a>
             )}
