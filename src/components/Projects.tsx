@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { track } from '@vercel/analytics';
 import { useLanguage } from '../contexts/LanguageContext';
+import { updateFlag, getFlags } from '../utils/featureFlags';
 import './Projects.css';
 
 interface Feature {
@@ -25,6 +27,7 @@ interface ProjectData {
 }
 
 interface Project {
+  id: string; // Unique identifier for analytics
   en: ProjectData;
   de: ProjectData;
   demoUrl?: string;
@@ -34,6 +37,7 @@ interface Project {
 
 const projects: Project[] = [
   {
+    id: "habits",
     en: {
       name: "HABITS - Premium Habit Tracker",
       tagline: "Track What Truly Matters",
@@ -101,6 +105,7 @@ const projects: Project[] = [
     images: ["/habitapp.png"]
   },
   {
+    id: "eye-tracking",
     en: {
       name: "Eye Tracking - Focus & Reaction Trainer",
       tagline: "Train Your Eyes, Boost Your Performance",
@@ -168,6 +173,7 @@ const projects: Project[] = [
     images: ["/eyetracking1.png"]
   },
   {
+    id: "blackfocus",
     en: {
       name: "BlackFocus - Premium Pomodoro Timer",
       tagline: "The Timer You've Been Looking For",
@@ -238,6 +244,7 @@ const projects: Project[] = [
     images: ["/blackfocus1.png", "/blackfocus2.png", "/blackfocus3.png"]
   },
   {
+    id: "dilogren",
     en: {
       name: "DiloGren - AI Language Learning Platform",
       tagline: "Learn Languages Smarter, Not Harder",
@@ -304,6 +311,7 @@ const projects: Project[] = [
     }
   },
   {
+    id: "mediflow",
     en: {
       name: "MediFlow - Medical Consultation Assistant",
       tagline: "The AI Assistant That Helps Doctors Focus",
@@ -400,7 +408,7 @@ const projects: Project[] = [
   }
 ];
 
-const ImageCarousel = ({ images }: { images: string[] }) => {
+const ImageCarousel = ({ images, projectId }: { images: string[]; projectId: string }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
@@ -408,6 +416,13 @@ const ImageCarousel = ({ images }: { images: string[] }) => {
   const [dragStart, setDragStart] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalIndex, setModalIndex] = useState(0);
+  
+  const updateUrl = (action: string) => {
+    window.history.pushState({}, '', `#project/${projectId}/${action}`);
+    
+    // Track event in Vercel Analytics with current feature flags
+    track(`Project ${action}`, { projectId }, { flags: Object.keys(getFlags()) });
+  };
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % images.length);
@@ -472,6 +487,7 @@ const ImageCarousel = ({ images }: { images: string[] }) => {
     setModalIndex(index);
     setIsModalOpen(true);
     document.body.style.overflow = 'hidden';
+    updateUrl('image-view');
   };
 
   const closeModal = () => {
@@ -601,11 +617,49 @@ const ImageCarousel = ({ images }: { images: string[] }) => {
 };
 
 export const Projects = () => {
-  const [expandedProject, setExpandedProject] = useState<number | null>(null);
+  const [expandedFeatures, setExpandedFeatures] = useState<Set<number>>(new Set());
+  const [expandedTechStack, setExpandedTechStack] = useState<Set<number>>(new Set());
   const { language, t } = useLanguage();
 
-  const toggleExpand = (index: number) => {
-    setExpandedProject(expandedProject === index ? null : index);
+  const updateProjectUrl = (projectId: string, action: string) => {
+    window.history.pushState({}, '', `#project/${projectId}/${action}`);
+    
+    // Track event in Vercel Analytics with current feature flags
+    track(`Project ${action}`, { projectId }, { flags: Object.keys(getFlags()) });
+  };
+
+  const toggleFeatures = (index: number) => {
+    const newSet = new Set(expandedFeatures);
+    const projectId = projects[index].id;
+    
+    if (newSet.has(index)) {
+      newSet.delete(index);
+    } else {
+      newSet.add(index);
+      updateProjectUrl(projectId, 'features');
+      
+      // Update feature flags
+      const expandedIds = Array.from(newSet).map(i => projects[i].id);
+      updateFlag('expandedFeatures', expandedIds);
+    }
+    setExpandedFeatures(newSet);
+  };
+
+  const toggleTechStack = (index: number) => {
+    const newSet = new Set(expandedTechStack);
+    const projectId = projects[index].id;
+    
+    if (newSet.has(index)) {
+      newSet.delete(index);
+    } else {
+      newSet.add(index);
+      updateProjectUrl(projectId, 'tech-stack');
+      
+      // Update feature flags
+      const expandedIds = Array.from(newSet).map(i => projects[i].id);
+      updateFlag('expandedTechStack', expandedIds);
+    }
+    setExpandedTechStack(newSet);
   };
 
   return (
@@ -617,13 +671,34 @@ export const Projects = () => {
         <div className="projects-grid">
           {projects.map((project, index) => {
             const projectData = project[language];
-            const isExpanded = expandedProject === index;
+            const isFeaturesExpanded = expandedFeatures.has(index);
+            const isTechStackExpanded = expandedTechStack.has(index);
 
             return (
-              <div key={index} className={`project-card ${isExpanded ? 'expanded' : ''}`}>
+              <div 
+                key={index} 
+                className="project-card"
+                onClick={(e) => {
+                  // Only track click if it's not on an interactive element
+                  const target = e.target as HTMLElement;
+                  if (!target.closest('button') && !target.closest('a') && !target.closest('img')) {
+                    updateProjectUrl(project.id, 'view');
+                    
+                    // Track viewed projects
+                    const flags = getFlags();
+                    const viewedProjects = Array.isArray(flags.viewedProjects) 
+                      ? flags.viewedProjects 
+                      : [];
+                    
+                    if (!viewedProjects.includes(project.id)) {
+                      updateFlag('viewedProjects', [...viewedProjects, project.id]);
+                    }
+                  }
+                }}
+              >
                 {project.images && project.images.length > 0 && (
                   <div className="project-images">
-                    <ImageCarousel images={project.images} />
+                    <ImageCarousel images={project.images} projectId={project.id} />
                   </div>
                 )}
                 <div className="project-header">
@@ -635,6 +710,7 @@ export const Projects = () => {
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="project-url"
+                        onClick={() => updateProjectUrl(project.id, 'demo-link')}
                       >
                         {project.demoUrl}
                       </a>
@@ -645,82 +721,92 @@ export const Projects = () => {
                 
                 <div className="project-description">
                   {projectData.description}
-              </div>
+                </div>
 
-                <div className="project-features">
-                  <h4 className="features-title">{t.projects.features}</h4>
-                  <ul className="features-list">
-                    {projectData.features.slice(0, isExpanded ? projectData.features.length : 3).map((feature, i) => (
-                      <li key={i} className="feature-item">
-                        <span className="feature-title">• {feature.title}:</span>
-                        <span className="feature-desc">{feature.description}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  {projectData.features.length > 3 && (
-                    <button
-                      className="expand-btn"
-                      onClick={() => toggleExpand(index)}
-                    >
-                      {isExpanded ? t.projects.showLess : `+${projectData.features.length - 3} ${t.projects.moreFeatures}`}
-                    </button>
+                <div className="project-section">
+                  <button
+                    className="section-toggle-btn"
+                    onClick={() => toggleFeatures(index)}
+                  >
+                    <span className="section-toggle-title">{t.projects.features}</span>
+                    <span className="section-toggle-icon">{isFeaturesExpanded ? '−' : '+'}</span>
+                  </button>
+                  
+                  {isFeaturesExpanded && (
+                    <ul className="features-list">
+                      {projectData.features.map((feature, i) => (
+                        <li key={i} className="feature-item">
+                          <span className="feature-title">• {feature.title}:</span>
+                          <span className="feature-desc">{feature.description}</span>
+                        </li>
+                      ))}
+                    </ul>
                   )}
                 </div>
 
-                <div className="project-tech">
-                  <h4 className="tech-title">{t.projects.techStack}</h4>
-                  <div className="tech-sections">
-                    {projectData.techStack.frontend && (
-                      <div className="tech-section">
-                        <span className="tech-label">{t.projects.tech.frontend}</span>
-                        <div className="tech-tags">
-                          {projectData.techStack.frontend.map((tech, i) => (
-                            <span key={i} className="tech-tag">{tech}</span>
-                          ))}
+                <div className="project-section">
+                  <button
+                    className="section-toggle-btn"
+                    onClick={() => toggleTechStack(index)}
+                  >
+                    <span className="section-toggle-title">{t.projects.techStack}</span>
+                    <span className="section-toggle-icon">{isTechStackExpanded ? '−' : '+'}</span>
+                  </button>
+                  
+                  {isTechStackExpanded && (
+                    <div className="tech-sections">
+                      {projectData.techStack.frontend && (
+                        <div className="tech-section">
+                          <span className="tech-label">{t.projects.tech.frontend}</span>
+                          <div className="tech-tags">
+                            {projectData.techStack.frontend.map((tech, i) => (
+                              <span key={i} className="tech-tag">{tech}</span>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    )}
-                    {projectData.techStack.backend && (
-                      <div className="tech-section">
-                        <span className="tech-label">{t.projects.tech.backend}</span>
-                        <div className="tech-tags">
-                          {projectData.techStack.backend.map((tech, i) => (
-                            <span key={i} className="tech-tag">{tech}</span>
-                          ))}
+                      )}
+                      {projectData.techStack.backend && (
+                        <div className="tech-section">
+                          <span className="tech-label">{t.projects.tech.backend}</span>
+                          <div className="tech-tags">
+                            {projectData.techStack.backend.map((tech, i) => (
+                              <span key={i} className="tech-tag">{tech}</span>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    )}
-                    {projectData.techStack.ui && (
-                      <div className="tech-section">
-                        <span className="tech-label">{t.projects.tech.ui}</span>
-                        <div className="tech-tags">
-                          {projectData.techStack.ui.map((tech, i) => (
-                            <span key={i} className="tech-tag">{tech}</span>
-                          ))}
+                      )}
+                      {projectData.techStack.ui && (
+                        <div className="tech-section">
+                          <span className="tech-label">{t.projects.tech.ui}</span>
+                          <div className="tech-tags">
+                            {projectData.techStack.ui.map((tech, i) => (
+                              <span key={i} className="tech-tag">{tech}</span>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    )}
-                    {projectData.techStack.features && (
-                      <div className="tech-section">
-                        <span className="tech-label">{t.projects.tech.features}</span>
-                        <div className="tech-tags">
-                          {projectData.techStack.features.map((tech, i) => (
-                            <span key={i} className="tech-tag">{tech}</span>
-                          ))}
+                      )}
+                      {projectData.techStack.features && (
+                        <div className="tech-section">
+                          <span className="tech-label">{t.projects.tech.features}</span>
+                          <div className="tech-tags">
+                            {projectData.techStack.features.map((tech, i) => (
+                              <span key={i} className="tech-tag">{tech}</span>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    )}
-                    {projectData.techStack.ai && (
-                      <div className="tech-section">
-                        <span className="tech-label">{t.projects.tech.ai}</span>
-                        <div className="tech-tags">
-                          {projectData.techStack.ai.map((tech, i) => (
-                            <span key={i} className="tech-tag">{tech}</span>
-                          ))}
+                      )}
+                      {projectData.techStack.ai && (
+                        <div className="tech-section">
+                          <span className="tech-label">{t.projects.tech.ai}</span>
+                          <div className="tech-tags">
+                            {projectData.techStack.ai.map((tech, i) => (
+                              <span key={i} className="tech-tag">{tech}</span>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </div>
+                      )}
+                    </div>
+                  )}
                 </div>
 
               </div>

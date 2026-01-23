@@ -64,16 +64,7 @@ export const Resume = () => {
           }`}>
           <h1 className="resume-name">BILAL HINISLIOGLU</h1>
           <div className="resume-contact">
-            <a href="mailto:bilalhinis@gmail.com">bilalhinis@gmail.com</a>
-            <span>|</span>
-            <a href="tel:+491608175740">+49 1608175740</a>
-            <span>|</span>
-            <a
-              href="https://blackfocusvercel.vercel.app/"
-              target="_blank"
-              rel="noopener noreferrer">
-              {t.projects.portfolioLink}
-            </a>
+            <span>Web Developer</span>
           </div>
         </div>
 
@@ -84,9 +75,10 @@ export const Resume = () => {
           className={`resume-section ${
             visibleSections.has("resume-about") ? "visible" : ""
           }`}>
-          <p className="resume-description">{t.about.bio1}</p>
-          <p className="resume-description">{t.about.bio2}</p>
-          <p className="resume-description">{t.about.bio3}</p>
+          <p className="resume-description" dangerouslySetInnerHTML={{ __html: t.about.bio1 }} />
+          <p className="resume-description" dangerouslySetInnerHTML={{ __html: t.about.bio2 }} />
+          <p className="resume-description" dangerouslySetInnerHTML={{ __html: t.about.bio3 }} />
+          <p className="resume-description" dangerouslySetInnerHTML={{ __html: t.about.bio4 }} />
         </div>
 
         {/* Key Skills Section */}
@@ -141,52 +133,72 @@ export const Resume = () => {
           </div>
         </div>
 
-        {/* Education Section */}
-        <div
-          id="resume-education"
-          ref={setRef("resume-education")}
-          className={`resume-section ${
-            visibleSections.has("resume-education") ? "visible" : ""
-          }`}>
-          <h2 className="section-title">{t.resume.education}</h2>
-          <div className="timeline">
-            <div
-              className={`timeline-item ${
-                visibleSections.has("resume-education") ? "visible" : ""
-              }`}>
-              <div className="timeline-date">
-                {t.resume.educationData.period}
-              </div>
-              <div className="timeline-content">
-                <h3>{t.resume.educationData.degree}</h3>
-                <p className="timeline-institution">
-                  {t.resume.educationData.institution}
-                </p>
-                <p className="timeline-note">{t.resume.educationData.note}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Experience Section */}
+        {/* Experience Timeline - All Chronological */}
         <div
           id="resume-experience"
           ref={setRef("resume-experience")}
           className={`resume-section ${
             visibleSections.has("resume-experience") ? "visible" : ""
           }`}>
-          <h2 className="section-title">{t.resume.experience}</h2>
+          <h2 className="section-title">{t.resume.workExperience}</h2>
           <div className="timeline">
-            {t.resume.experiences.map((exp, index) => {
+            {/* Current Work Experience */}
+            {t.resume.workExperiences.map((exp, index) => {
               const isPresent = exp.period.includes('Heute') || exp.period.includes('Present');
               return (
                 <div
-                  key={index}
+                  key={`work-${index}`}
                   className={`timeline-item ${
                     visibleSections.has("resume-experience") ? "visible" : ""
                   } ${isPresent ? "current" : ""}`}
-                  style={{ animationDelay: `${index * 0.2}s` }}>
+                  style={{ animationDelay: `${index * 0.15}s` }}>
                   <div className="timeline-date">{exp.period}</div>
+                  <div className="timeline-content">
+                    <h3>{exp.title}</h3>
+                    <p className="timeline-company">{exp.company}</p>
+                    <ul className="timeline-description">
+                      {exp.description.map((desc: string, i: number) => (
+                        <li key={i}>{desc}</li>
+                      ))}
+                    </ul>
+                    <p className="timeline-techstack">
+                      <strong>{t.projects.techStack}:</strong> {exp.techstack}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Bachelor Thesis */}
+            <div
+              className={`timeline-item ${
+                visibleSections.has("resume-experience") ? "visible" : ""
+              }`}
+              style={{ animationDelay: '0.15s' }}>
+              <div className="timeline-date">{t.resume.thesisData.period}</div>
+              <div className="timeline-content">
+                <h3>{t.resume.thesisData.title}</h3>
+                <p className="timeline-company">{t.resume.thesisData.company}</p>
+                <ul className="timeline-description">
+                  {t.resume.thesisData.description.map((desc: string, i: number) => (
+                    <li key={i}>{desc}</li>
+                  ))}
+                </ul>
+                <p className="timeline-techstack">
+                  <strong>{t.projects.techStack}:</strong> {t.resume.thesisData.techstack}
+                </p>
+              </div>
+            </div>
+
+            {/* Internships */}
+            {t.resume.internshipsData.map((exp, index) => (
+              <div
+                key={`intern-${index}`}
+                className={`timeline-item ${
+                  visibleSections.has("resume-experience") ? "visible" : ""
+                }`}
+                style={{ animationDelay: `${(index + 2) * 0.15}s` }}>
+                <div className="timeline-date">{exp.period}</div>
                 <div className="timeline-content">
                   <h3>{exp.title}</h3>
                   <p className="timeline-company">{exp.company}</p>
@@ -199,31 +211,20 @@ export const Resume = () => {
                     <strong>{t.projects.techStack}:</strong> {exp.techstack}
                   </p>
                 </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+              </div>
+            ))}
 
-        {/* Eigene Projekte Section */}
-        <div
-          id="resume-projects"
-          ref={setRef("resume-projects")}
-          className={`resume-section ${
-            visibleSections.has("resume-projects") ? "visible" : ""
-          }`}>
-          <h2 className="section-title">{t.resume.ownProjects}</h2>
-          <div className="projects-link">
-            <a
-              href="https://blackfocusvercel.vercel.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="portfolio-link">
-              <span className="link-icon">🔗</span>
-              <span>
-                {t.projects.portfolioLink}: blackfocusvercel.vercel.app
-              </span>
-            </a>
+            {/* Education at the end */}
+            <div
+              className={`timeline-item ${
+                visibleSections.has("resume-experience") ? "visible" : ""
+              }`}
+              style={{ animationDelay: '0.45s' }}>
+              <div className="timeline-date">{t.resume.educationData.period}</div>
+              <div className="timeline-content">
+                <h3>{t.resume.educationData.degree}</h3>
+              </div>
+            </div>
           </div>
         </div>
 

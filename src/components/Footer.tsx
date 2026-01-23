@@ -12,16 +12,10 @@ export const Footer = () => {
           {t.footer.copyright}
         </p>
         <div className="footer-social">
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <a href="https://github.com/bilalsGitHub" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
             💻
           </a>
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-            💼
-          </a>
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-            🐦
-          </a>
-          <a href="mailto:youremail@example.com" aria-label="Email">
+          <a href="mailto:bilalhinis@gmail.com" aria-label="Email">
             📧
           </a>
         </div>

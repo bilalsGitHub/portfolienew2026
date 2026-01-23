@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { updateFlag } from '../utils/featureFlags';
 
 type Theme = 'light' | 'dark';
 
@@ -18,6 +19,8 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     localStorage.setItem('theme', theme);
     document.documentElement.setAttribute('data-theme', theme);
+    // Emit theme as feature flag for Vercel Analytics
+    updateFlag('theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {

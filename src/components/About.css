@@ -45,11 +45,16 @@
 }
 
 .bio-text {
-  font-size: 1.1rem;
-  line-height: 1.9;
+  font-size: 1.05rem;
+  line-height: 1.8;
   margin-bottom: 1.5rem;
   color: var(--text-secondary);
-  text-align: justify;
+  text-align: left;
+}
+
+.bio-text strong {
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 .skills-section {
@@ -74,7 +79,7 @@
   color: var(--text-primary);
   font-weight: 600;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid rgba(30, 64, 175, 0.6);
+  border-bottom: 2px solid var(--accent-primary);
 }
 
 .skills-grid {
@@ -130,7 +135,7 @@
 
 @media (max-width: 768px) {
   .about {
-    padding: 5rem 1.5rem 3rem;
+    padding: 4rem 1.5rem 3rem;
   }
 
   .section-title {
@@ -139,8 +144,8 @@
   }
 
   .bio-text {
-    font-size: 1rem;
-    text-align: left;
+    font-size: 0.95rem;
+    line-height: 1.7;
   }
 
   .skills-title {
@@ -163,6 +168,10 @@
 
   .skill-name {
     font-size: 0.9rem;
+  }
+
+  .about-container {
+    max-width: 100%;
   }
 }
 

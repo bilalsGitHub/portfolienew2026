@@ -8,7 +8,7 @@ import { About } from './components/About';
 import { Projects } from './components/Projects';
 import { Contact } from './components/Contact';
 import { Resume } from './components/Resume';
-import { Footer } from './components/Footer';
+import { updateFlag } from './utils/featureFlags';
 import './App.css';
 
 function App() {
@@ -25,6 +25,8 @@ function App() {
           const { offsetTop, offsetHeight } = element;
           if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
             setActiveSection(section);
+            // Emit active section as feature flag for Vercel Analytics
+            updateFlag('activeSection', section);
             break;
           }
         }
@@ -38,18 +40,17 @@ function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <div className="App">
-          <Header activeSection={activeSection} onSectionChange={setActiveSection} />
-          <main>
-            <Hero />
-            <About />
-            <Projects />
+    <div className="App">
+      <Header activeSection={activeSection} onSectionChange={setActiveSection} />
+      <main>
+        <Hero />
+        <About />
+        <Projects />
             <Resume />
-            <Contact />
-          </main>
-          <Footer />
+        <Contact />
+      </main>
           <Analytics />
-        </div>
+    </div>
       </LanguageProvider>
     </ThemeProvider>
   );

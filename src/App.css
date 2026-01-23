@@ -3,12 +3,23 @@
   background: var(--bg-primary);
   color: var(--text-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
+  display: flex;
 }
 
 main {
   scroll-behavior: smooth;
+  margin-left: 280px;
+  width: calc(100% - 280px);
+  position: relative;
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+@media (max-width: 768px) {
+  main {
+    margin-left: 0;
+    width: 100%;
+  }
 }

@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import { translations } from "../translations";
+import { updateFlag } from "../utils/featureFlags";
 
 type Language = "de" | "en";
 
@@ -24,6 +25,8 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     localStorage.setItem("language", language);
     document.documentElement.lang = language;
+    // Emit language as feature flag for Vercel Analytics
+    updateFlag("language", language);
   }, [language]);
 
   const toggleLanguage = () => {

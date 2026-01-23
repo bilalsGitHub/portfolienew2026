@@ -10,14 +10,20 @@ export const translations = {
       toggleMenu: 'Menü umschalten',
     },
     hero: {
-      greeting: 'Hallo, ich bin',
+      greeting: 'Hallo, ich bin ',
+      name: 'Bilal',
       title: 'Webentwickler',
-      description: 'Ich erstelle schöne und funktionale Web-Erlebnisse mit modernen Technologien. Leidenschaftlich für sauberen Code, Benutzererfahrung und kontinuierliches Lernen.',
+      iDesign: 'Ich designe ',
+      andDevelop: 'und entwickle',
+      websites: 'Webseiten.',
+      description: 'Ich erstelle auch Ihr Markenimage, Logo und digitale Erlebnisse...',
       contactBtn: 'Kontaktieren Sie mich',
+      workWithMe: 'ARBEITE MIT MIR',
+      works: 'ARBEITEN',
     },
     about: {
       title: 'Über mich',
-      bio1: 'Ich bin ein motivierter und praxisorientierter Webentwickler mit einem abgeschlossenen Bachelorstudium der Wirtschaftsinformatik (Schwerpunkt Webentwicklung) an der <strong>Hochschule Worms</strong>. Durch meine umfangreiche praktische Erfahrung am <strong>Fraunhofer IOSB</strong> sowie in eigenen Projekten habe ich mich auf die Entwicklung moderner, <strong>KI-gestützter Webanwendungen</strong> spezialisiert.',
+      bio1: 'Ich bin ein motivierter und praxisorientierter Webentwickler mit einem abgeschlossenen Bachelorstudium der <strong>Wirtschaftsinformatik</strong> (Schwerpunkt <strong>Webentwicklung</strong>). Durch meine umfangreiche praktische Erfahrung am <strong>Fraunhofer IOSB</strong> sowie in eigenen Projekten habe ich mich auf die Entwicklung moderner, <strong>KI-gestützter Webanwendungen</strong> spezialisiert.',
       bio2: 'Mein technischer Fokus liegt auf <strong>React</strong>, <strong>TypeScript</strong>, <strong>JavaScript</strong>, <strong>HTML</strong> und <strong>CSS</strong> sowie auf der Integration moderner APIs – insbesondere <strong>KI-</strong> und <strong>OpenAI-APIs</strong> – zur Umsetzung intelligenter, interaktiver <strong>SaaS-Lösungen</strong>. Dabei entwickle ich Anwendungen, die KI aktiv nutzen, z. B. für Textverarbeitung, Automatisierung oder nutzerzentrierte Assistenzfunktionen.',
       bio3: 'Neben der Frontend-Entwicklung verfüge ich über fundierte Backend-Kenntnisse, insbesondere in <strong>Node.js</strong> sowie in der Konzeption und Implementierung leistungsfähiger <strong>REST-APIs</strong>. Durch eigenständig realisierte KI- und Webprojekte habe ich sowohl im Frontend als auch im Backend praxisnahe Erfahrung gesammelt und meine Fähigkeiten kontinuierlich weiterentwickelt.',
       bio4: 'Als autodidaktischer Entwickler arbeite ich mich schnell in neue Technologien und <strong>KI-Frameworks</strong> ein und setze diese zielgerichtet in realen Projekten ein. Mein langfristiges Ziel ist es, mich fachlich und technisch kontinuierlich weiterzuentwickeln und meinen Weg zum <strong>Senior Web Developer</strong> mit Schwerpunkt auf <strong>KI-gestützten Web- und SaaS-Anwendungen</strong> konsequent voranzutreiben.',
@@ -46,8 +52,9 @@ export const translations = {
       headerTitle: 'Lebenslauf',
       keySkills: 'Schlüsselqualifikationen',
       education: 'Bildung',
-      experience: 'Erfahrungen',
-      ownProjects: 'Eigene Projekte',
+      workExperience: 'Berufserfahrung',
+      thesis: 'Abschlussarbeit',
+      internships: 'Praktika',
       languages: 'Sprachen',
       softSkills: 'Soft Skills',
       frontend: 'Frontend',
@@ -63,7 +70,7 @@ export const translations = {
         'Eigenverantwortliches Arbeiten',
         'Lernbereitschaft & Anpassungsfähigkeit'
       ],
-      experiences: [
+      workExperiences: [
         {
           title: 'Web Developer',
           company: 'Fraunhofer IOSB',
@@ -76,18 +83,20 @@ export const translations = {
           ],
           techstack: 'React, TypeScript, HTML, CSS, JavaScript, Git, GitLab, Python, SQL',
         },
-        {
-          title: 'Bachelor Thesis',
-          company: 'Fraunhofer IOSB',
-          period: '06/2025 – 09/2025',
-          description: [
-            'Entwicklung eines Zusatzmoduls zur automatisierten Erkennung von Fahrzeugattributen',
-            'Integration des Moduls in eine bestehende webbasierte Annotierungsplattform',
-            'Einsatz von Reverse Image Search, Webscraping & KI-Textanalyse',
-            'Durchführung einer Usability-Studie (SUS-Score: 86)',
-          ],
-          techstack: 'React, TypeScript, HTML, CSS, JavaScript, Webscraping, AI',
-        },
+      ],
+      thesisData: {
+        title: 'Bachelor Thesis',
+        company: 'Fraunhofer IOSB',
+        period: '06/2025 – 09/2025',
+        description: [
+          'Entwicklung eines Zusatzmoduls zur automatisierten Erkennung von Fahrzeugattributen',
+          'Integration des Moduls in eine bestehende webbasierte Annotierungsplattform',
+          'Einsatz von Reverse Image Search, Webscraping & KI-Textanalyse',
+          'Durchführung einer Usability-Studie (SUS-Score: 86)',
+        ],
+        techstack: 'React, TypeScript, HTML, CSS, JavaScript, Webscraping, AI',
+      },
+      internshipsData: [
         {
           title: 'Praktikum – Shop Development',
           company: '1&1',
@@ -97,7 +106,7 @@ export const translations = {
             'Frontend-Implementierung mit HTML, CSS, JavaScript',
             'Unterstützung im Testing und Bug-Fixing',
           ],
-          techstack: 'HTML, CSS, Java',
+          techstack: 'HTML, CSS, React, JavaScript, Java',
         },
       ],
       educationData: {
@@ -112,6 +121,10 @@ export const translations = {
       heading: 'Lassen Sie uns zusammenarbeiten',
       description: 'Ich bin immer an neuen Möglichkeiten und spannenden Projekten interessiert. Egal, ob Sie eine Frage haben oder einfach nur Hallo sagen möchten, schreiben Sie mir gerne!',
       location: 'Remote oder Umzug möglich',
+      mathQuestion: 'Lösen Sie diese Aufgabe, um meine E-Mail zu sehen',
+      mathPlaceholder: 'Ihre Antwort',
+      mathSubmit: 'Bestätigen',
+      mathError: 'Falsche Antwort. Versuchen Sie es erneut!',
     },
     footer: {
       copyright: '© 2026 Bilal Hinislioglu. Alle Rechte vorbehalten.',
@@ -128,14 +141,20 @@ export const translations = {
       toggleMenu: 'Toggle menu',
     },
     hero: {
-      greeting: "Hi, I'm",
+      greeting: "Hello, I'm ",
+      name: 'Bilal',
       title: 'Web Developer',
-      description: 'I create beautiful and functional web experiences with modern technologies. Passionate about clean code, user experience, and continuous learning.',
+      iDesign: 'I design ',
+      andDevelop: 'and develop',
+      websites: 'websites.',
+      description: 'I also design your brand image, logo, and digital experiences...',
       contactBtn: 'Contact Me',
+      workWithMe: 'WORK WITH ME',
+      works: 'WORKS',
     },
     about: {
       title: 'About Me',
-      bio1: "I'm a motivated and practice-oriented Web Developer with a completed Bachelor's degree in Business Informatics (Web Development specialization) from <strong>Hochschule Worms</strong>. Through my extensive practical experience at <strong>Fraunhofer IOSB</strong> and in personal projects, I have specialized in developing modern, <strong>AI-powered web applications</strong>.",
+      bio1: "I'm a motivated and practice-oriented Web Developer with a completed Bachelor's degree in <strong>Business Informatics</strong> (specialization in <strong>Web Development</strong>). Through my extensive practical experience at <strong>Fraunhofer IOSB</strong> and in personal projects, I have specialized in developing modern, <strong>AI-powered web applications</strong>.",
       bio2: 'My technical focus is on <strong>React</strong>, <strong>TypeScript</strong>, <strong>JavaScript</strong>, <strong>HTML</strong>, and <strong>CSS</strong>, as well as the integration of modern APIs – especially <strong>AI</strong> and <strong>OpenAI APIs</strong> – for implementing intelligent, interactive <strong>SaaS solutions</strong>. I develop applications that actively use AI, for example, for text processing, automation, or user-centric assistance functions.',
       bio3: 'Beyond frontend development, I have solid backend knowledge, particularly in <strong>Node.js</strong>, as well as in the design and implementation of powerful <strong>REST APIs</strong>. Through independently realized AI and web projects, I have gained hands-on experience in both frontend and backend and continuously developed my skills.',
       bio4: 'As a self-learning developer, I quickly familiarize myself with new technologies and <strong>AI frameworks</strong> and apply them purposefully in real projects. My long-term goal is to continue developing professionally and technically, consistently advancing on the path to becoming a <strong>Senior Web Developer</strong> with a focus on <strong>AI-powered web and SaaS applications</strong>.',
@@ -164,8 +183,9 @@ export const translations = {
       headerTitle: 'Resume',
       keySkills: 'Key Skills',
       education: 'Education',
-      experience: 'Experience',
-      ownProjects: 'Own Projects',
+      workExperience: 'Work Experience',
+      thesis: 'Bachelor Thesis',
+      internships: 'Internships',
       languages: 'Languages',
       softSkills: 'Soft Skills',
       frontend: 'Frontend',
@@ -181,7 +201,7 @@ export const translations = {
         'Independent Working',
         'Willingness to Learn & Adaptability'
       ],
-      experiences: [
+      workExperiences: [
         {
           title: 'Web Developer',
           company: 'Fraunhofer IOSB',
@@ -194,18 +214,20 @@ export const translations = {
           ],
           techstack: 'React, TypeScript, HTML, CSS, JavaScript, Git, GitLab, Python, SQL',
         },
-        {
-          title: 'Bachelor Thesis',
-          company: 'Fraunhofer IOSB',
-          period: '06/2025 – 09/2025',
-          description: [
-            'Development of an add-on module for automated recognition of vehicle attributes',
-            'Integration of the module into an existing web-based annotation platform',
-            'Use of Reverse Image Search, Webscraping & AI text analysis',
-            'Conducted a usability study (SUS Score: 86)',
-          ],
-          techstack: 'React, TypeScript, HTML, CSS, JavaScript, Webscraping, AI',
-        },
+      ],
+      thesisData: {
+        title: 'Bachelor Thesis',
+        company: 'Fraunhofer IOSB',
+        period: '06/2025 – 09/2025',
+        description: [
+          'Development of an add-on module for automated recognition of vehicle attributes',
+          'Integration of the module into an existing web-based annotation platform',
+          'Use of Reverse Image Search, Webscraping & AI text analysis',
+          'Conducted a usability study (SUS Score: 86)',
+        ],
+        techstack: 'React, TypeScript, HTML, CSS, JavaScript, Webscraping, AI',
+      },
+      internshipsData: [
         {
           title: 'Internship – Shop Development',
           company: '1&1',
@@ -215,7 +237,7 @@ export const translations = {
             'Frontend implementation with HTML, CSS, JavaScript',
             'Support in testing and bug fixing',
           ],
-          techstack: 'HTML, CSS, Java',
+          techstack: 'HTML, CSS, React, JavaScript, Java',
         },
       ],
       educationData: {
@@ -230,6 +252,10 @@ export const translations = {
       heading: "Let's Work Together",
       description: "I'm always interested in new opportunities and exciting projects. Whether you have a question or just want to say hi, feel free to reach out!",
       location: 'Remote or relocation possible',
+      mathQuestion: 'Solve this to see my email',
+      mathPlaceholder: 'Your answer',
+      mathSubmit: 'Submit',
+      mathError: 'Wrong answer. Try again!',
     },
     footer: {
       copyright: '© 2026 Bilal Hinislioglu. All rights reserved.',
