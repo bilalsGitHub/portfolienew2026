@@ -1,12 +1,18 @@
 # Git LFS Kurulum Rehberi
 
-Videoları Git'e eklemek için Git LFS (Large File Storage) kullanıyoruz.
+**UPDATE: LFS Devre Dışı Bırakıldı**
+
+Videolar artık normal Git dosyaları olarak commit ediliyor (LFS'siz).
+Neden: Vercel otomatik olarak LFS dosyalarını indirmiyor, normal dosyalar daha iyi çalışıyor.
+
+~~Videoları Git'e eklemek için Git LFS (Large File Storage) kullanıyoruz.~~
 
 ## 🚀 Hızlı Kurulum
 
 ### 1. Git LFS'i Kur
 
 **Windows (Git Bash veya PowerShell):**
+
 ```bash
 # Git LFS zaten Git for Windows ile geliyor
 # Eğer yoksa: https://git-lfs.github.com/ indir
@@ -52,16 +58,19 @@ git push origin main
 ## 📊 Git LFS Limitleri (GitHub)
 
 **Ücretsiz Plan:**
+
 - 💾 Storage: 1 GB
 - 📡 Bandwidth: 1 GB/ay
 - Dosya başına limit yok
 
 **Sizin Durumunuz:**
+
 - 4 video dosyası var
 - Ortalama 10-50 MB/video = ~40-200 MB toplam
 - ✅ 1 GB limitin altında!
 
 **Bandwidth:** Her video izlendiğinde/indirildiğinde bandwidth harcanır:
+
 - Örnek: 50 MB video × 20 kişi = 1 GB
 - Portfolio için genelde yeterli
 
@@ -82,10 +91,13 @@ git lfs ls-files
 ## ⚠️ Önemli Notlar
 
 ### 1. İlk Push Yavaş Olabilir
+
 Video dosyaları büyük olduğu için ilk push 5-10 dakika sürebilir.
 
 ### 2. Clone İşlemi
+
 Başkaları repo'yu clone ettiğinde:
+
 ```bash
 git clone https://github.com/username/repo.git
 cd repo
@@ -93,12 +105,16 @@ git lfs pull  # Videoları indir
 ```
 
 ### 3. Bandwidth Limiti Aşılırsa
+
 Eğer 1 GB/ay bandwidth aşılırsa:
+
 - GitHub extra ücret ister ($5/50GB)
 - Veya videoları YouTube'a taşı
 
 ### 4. Video Güncellemeleri
+
 Video değiştirirsen:
+
 ```bash
 git add public/video.mp4
 git commit -m "Update video"
@@ -127,6 +143,7 @@ git lfs ls-files
 ## 🔧 Sorun Giderme
 
 ### "Git LFS not found" hatası:
+
 ```bash
 # Git LFS'i indir: https://git-lfs.github.com/
 # Sonra tekrar dene:
@@ -134,12 +151,14 @@ git lfs install
 ```
 
 ### "This exceeds GitHub's file size limit" hatası:
+
 ```bash
 # Video dosyası 100 MB'dan büyük
 # Videoyu sıkıştır veya YouTube kullan
 ```
 
 ### LFS'i devre dışı bırak:
+
 ```bash
 git lfs uninstall
 ```
@@ -147,6 +166,7 @@ git lfs uninstall
 ## 📝 Alternatif: Video Olmadan Push
 
 Eğer LFS kurmak istemezsen:
+
 ```bash
 # Videoları geçici ignore et
 echo "*.mp4" >> .gitignore
