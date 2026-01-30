@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { updateFlag, getFlags, trackRoute, trackInteraction } from '../utils/featureFlags';
@@ -32,6 +32,7 @@ interface Project {
   demoUrl?: string;
   githubUrl?: string;
   images?: string[];
+  video?: string; // Video file path
 }
 
 const projects: Project[] = [
@@ -105,6 +106,7 @@ const projects: Project[] = [
   },
   {
     id: "eye-tracking",
+    video: "/Eye Tracking 1 .mp4",
     en: {
       name: "Eye Tracking - Focus & Reaction Trainer",
       tagline: "Train Your Eyes, Boost Your Performance",
@@ -240,10 +242,12 @@ const projects: Project[] = [
       }
     },
     demoUrl: "https://blackfocusvercel.vercel.app/",
-    images: ["/blackfocus1.png", "/blackfocus2.png", "/blackfocus3.png"]
+    images: ["/blackfocus1.png", "/blackfocus2.png", "/blackfocus3.png"],
+    video: "/Black Focus 1.mp4"
   },
   {
     id: "dilogren",
+    video: "/Dıl Ogren.mp4",
     en: {
       name: "DiloGren - AI Language Learning Platform",
       tagline: "Learn Languages Smarter, Not Harder",
@@ -311,6 +315,7 @@ const projects: Project[] = [
   },
   {
     id: "mediflow",
+    video: "/MedıFlow 1.mp4",
     en: {
       name: "MediFlow - Medical Consultation Assistant",
       tagline: "The AI Assistant That Helps Doctors Focus",
@@ -406,6 +411,70 @@ const projects: Project[] = [
     images: ["/voiceapp1.png", "/voiceapp2.png", "/voiceapp3.png"]
   }
 ];
+
+const VideoModal = ({ videoUrl, projectId, onClose }: { videoUrl: string; projectId: string; onClose: () => void }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    // Auto-play when modal opens
+    if (videoRef.current) {
+      videoRef.current.play().catch(err => {
+        console.log('Autoplay prevented:', err);
+      });
+    }
+
+    // Track video view
+    trackRoute(`/projects/${projectId}/video`, { 
+      projectId, 
+      action: 'video_view'
+    });
+
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden';
+
+    // Cleanup
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [projectId]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      } else if (e.key === ' ' && videoRef.current) {
+        e.preventDefault();
+        if (videoRef.current.paused) {
+          videoRef.current.play();
+        } else {
+          videoRef.current.pause();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
+  return createPortal(
+    <div className="video-modal" onClick={onClose}>
+      <button className="modal-close" onClick={(e) => { e.stopPropagation(); onClose(); }} aria-label="Close video">
+        ×
+      </button>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <video
+          ref={videoRef}
+          src={videoUrl}
+          controls
+          autoPlay
+          className="modal-video"
+          onClick={(e) => e.stopPropagation()}
+        />
+      </div>
+    </div>,
+    document.body
+  );
+};
 
 const ImageCarousel = ({ images, projectId }: { images: string[]; projectId: string }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -631,7 +700,20 @@ const ImageCarousel = ({ images, projectId }: { images: string[]; projectId: str
 export const Projects = () => {
   const [expandedFeatures, setExpandedFeatures] = useState<Set<number>>(new Set());
   const [expandedTechStack, setExpandedTechStack] = useState<Set<number>>(new Set());
+  const [videoModal, setVideoModal] = useState<{ isOpen: boolean; videoUrl: string; projectId: string }>({ 
+    isOpen: false, 
+    videoUrl: '', 
+    projectId: '' 
+  });
   const { language, t } = useLanguage();
+
+  const openVideoModal = (videoUrl: string, projectId: string) => {
+    setVideoModal({ isOpen: true, videoUrl, projectId });
+  };
+
+  const closeVideoModal = () => {
+    setVideoModal({ isOpen: false, videoUrl: '', projectId: '' });
+  };
 
   const toggleFeatures = (index: number) => {
     const newSet = new Set(expandedFeatures);
@@ -729,7 +811,19 @@ export const Projects = () => {
                 )}
                 <div className="project-header">
                   <div className="project-title-section">
-                    <h3 className="project-title">{projectData.name}</h3>
+                    <div className="project-title-row">
+                      <h3 className="project-title">{projectData.name}</h3>
+                      {project.video && (
+                        <button
+                          className="video-play-btn"
+                          onClick={() => openVideoModal(project.video!, project.id)}
+                          aria-label="Watch project video"
+                          title="Watch video demo"
+                        >
+                          ▶ Video
+                        </button>
+                      )}
+                    </div>
                     {project.demoUrl && (
                       <a 
                         href={project.demoUrl} 
@@ -846,6 +940,15 @@ export const Projects = () => {
             );
           })}
         </div>
+        
+        {/* Video Modal */}
+        {videoModal.isOpen && (
+          <VideoModal 
+            videoUrl={videoModal.videoUrl} 
+            projectId={videoModal.projectId}
+            onClose={closeVideoModal}
+          />
+        )}
       </div>
     </section>
   );
