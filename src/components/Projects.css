@@ -29,6 +29,92 @@
   background-clip: text;
 }
 
+.category-filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.category-filter-btn {
+  padding: 0.75rem 1.5rem;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.category-filter-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  transition: left 0.3s ease;
+  z-index: 0;
+}
+
+.category-filter-btn span,
+.category-filter-btn::after {
+  position: relative;
+  z-index: 1;
+}
+
+.category-filter-btn:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--shadow-md);
+}
+
+.category-filter-btn:hover::before {
+  left: 0;
+  opacity: 0.1;
+}
+
+.category-filter-btn.active {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 15px rgba(100, 108, 255, 0.3);
+}
+
+.category-filter-btn.active::before {
+  display: none;
+}
+
+.projects-category {
+  margin-bottom: 4rem;
+}
+
+.category-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 2rem 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border-color);
+  position: relative;
+}
+
+.category-title::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+}
+
 .language-toggle {
   display: flex;
   gap: 0.5rem;
@@ -828,5 +914,14 @@
 
   .project-title-row {
     gap: 0.75rem;
+  }
+
+  .category-filters {
+    gap: 0.75rem;
+  }
+
+  .category-filter-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
   }
 }

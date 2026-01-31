@@ -11,15 +11,12 @@ export const translations = {
     },
     hero: {
       greeting: 'Hallo, ich bin ',
-      name: 'Bilal',
-      title: 'Webentwickler',
-      iDesign: 'Ich designe ',
-      andDevelop: 'und entwickle',
-      websites: 'Webseiten.',
-      description: 'Ich erstelle auch Ihr Markenimage, Logo und digitale Erlebnisse...',
-      contactBtn: 'Kontaktieren Sie mich',
-      workWithMe: 'ARBEITE MIT MIR',
-      works: 'ARBEITEN',
+      name: 'Bilal Hinislioglu',
+      title: 'Web Developer',
+      description: 'Spezialisiert auf React, TypeScript und moderne Webanwendungen',
+      contactBtn: 'Kontakt aufnehmen',
+      workWithMe: 'KONTAKT',
+      works: 'PROJEKTE',
     },
     about: {
       title: 'Über mich',
@@ -40,12 +37,20 @@ export const translations = {
       portfolioLink: 'Portfolio ansehen',
       showLess: 'Weniger anzeigen',
       moreFeatures: 'Weitere Funktionen',
+      categories: {
+        all: 'Alle Projekte',
+        fullstack: 'Full-Stack',
+        frontendApi: 'Frontend mit API',
+        frontendPure: 'Pure Frontend'
+      },
       tech: {
         frontend: 'Frontend:',
         backend: 'Backend:',
         ui: 'UI:',
         features: 'Funktionen:',
         ai: 'KI:',
+        stateManagement: 'State Management:',
+        storage: 'Speicher:',
       }
     },
     resume: {
@@ -142,15 +147,12 @@ export const translations = {
     },
     hero: {
       greeting: "Hello, I'm ",
-      name: 'Bilal',
+      name: 'Bilal Hinislioglu',
       title: 'Web Developer',
-      iDesign: 'I design ',
-      andDevelop: 'and develop',
-      websites: 'websites.',
-      description: 'I also design your brand image, logo, and digital experiences...',
-      contactBtn: 'Contact Me',
-      workWithMe: 'WORK WITH ME',
-      works: 'WORKS',
+      description: 'Specialized in React, TypeScript and modern web applications',
+      contactBtn: 'Get In Touch',
+      workWithMe: 'CONTACT',
+      works: 'PROJECTS',
     },
     about: {
       title: 'About Me',
@@ -171,12 +173,20 @@ export const translations = {
       portfolioLink: 'View Portfolio',
       showLess: 'Show Less',
       moreFeatures: 'More Features',
+      categories: {
+        all: 'All Projects',
+        fullstack: 'Full-Stack',
+        frontendApi: 'Frontend with API',
+        frontendPure: 'Pure Frontend'
+      },
       tech: {
         frontend: 'Frontend:',
         backend: 'Backend:',
         ui: 'UI:',
         features: 'Features:',
         ai: 'AI:',
+        stateManagement: 'State Management:',
+        storage: 'Storage:',
       }
     },
     resume: {

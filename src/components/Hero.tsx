@@ -1,20 +1,21 @@
-import { useState, useEffect } from 'react';
-import { useLanguage } from '../contexts/LanguageContext';
-import { trackRoute, trackInteraction } from '../utils/featureFlags';
-import './Hero.css';
+import { useState, useEffect } from "react";
+import { useLanguage } from "../contexts/LanguageContext";
+import { trackRoute, trackInteraction } from "../utils/featureFlags";
+import "./Hero.css";
 
 export const Hero = () => {
   const { t } = useLanguage();
   const [animatedBg, setAnimatedBg] = useState(true);
 
   useEffect(() => {
-    const orbs = document.querySelectorAll('.gradient-orb');
-    
+    const orbs = document.querySelectorAll(".gradient-orb");
+
     if (!animatedBg) {
       // Reset orbs to initial position when animation is disabled
       orbs.forEach((orb) => {
-        (orb as HTMLElement).style.transition = 'transform 0.5s ease';
-        (orb as HTMLElement).style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
+        (orb as HTMLElement).style.transition = "transform 0.5s ease";
+        (orb as HTMLElement).style.transform =
+          "translate(0, 0) scale(1) rotate(0deg)";
       });
       return;
     }
@@ -26,11 +27,15 @@ export const Hero = () => {
         const randomScale = 0.7 + Math.random() * 0.6; // 0.7 to 1.3
         const randomRotation = Math.random() * 360; // 0 to 360
         const randomDuration = 8 + Math.random() * 7; // 8 to 15 seconds
-        
+
         // Different delay for each orb
         setTimeout(() => {
-          (orb as HTMLElement).style.transition = `transform ${randomDuration}s cubic-bezier(0.4, 0, 0.2, 1)`;
-          (orb as HTMLElement).style.transform = `translate(${randomX}px, ${randomY}px) scale(${randomScale}) rotate(${randomRotation}deg)`;
+          (
+            orb as HTMLElement
+          ).style.transition = `transform ${randomDuration}s cubic-bezier(0.4, 0, 0.2, 1)`;
+          (
+            orb as HTMLElement
+          ).style.transform = `translate(${randomX}px, ${randomY}px) scale(${randomScale}) rotate(${randomRotation}deg)`;
         }, index * 500); // Stagger the animations
       });
     };
@@ -49,47 +54,50 @@ export const Hero = () => {
   }, [animatedBg]);
 
   const scrollToContact = () => {
-    const element = document.getElementById('contact');
+    const element = document.getElementById("contact");
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      trackRoute('/contact', { 
-        action: 'cta_click',
-        source: 'hero_work_with_me_button'
+      element.scrollIntoView({ behavior: "smooth" });
+      trackRoute("/contact", {
+        action: "cta_click",
+        source: "hero_work_with_me_button",
       });
     }
   };
 
   const scrollToProjects = () => {
-    const element = document.getElementById('projects');
+    const element = document.getElementById("projects");
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      trackRoute('/projects', { 
-        action: 'cta_click',
-        source: 'hero_works_tab'
+      element.scrollIntoView({ behavior: "smooth" });
+      trackRoute("/projects", {
+        action: "cta_click",
+        source: "hero_works_tab",
       });
     }
   };
 
   return (
-    <section id="home" className={`hero ${animatedBg ? 'animated-bg' : ''}`}>
+    <section id="home" className={`hero ${animatedBg ? "animated-bg" : ""}`}>
       <div className="animated-background">
         <div className="gradient-orb orb-1"></div>
         <div className="gradient-orb orb-2"></div>
         <div className="gradient-orb orb-3"></div>
       </div>
 
-      <button 
-        className="bg-toggle-btn" 
+      <button
+        className="bg-toggle-btn"
         onClick={() => {
           const newState = !animatedBg;
           setAnimatedBg(newState);
-          trackInteraction('hero_background_toggle', { 
-            enabled: newState 
+          trackInteraction("hero_background_toggle", {
+            enabled: newState,
           });
         }}
-        title={animatedBg ? "Disable animated background" : "Enable animated background"}
-      >
-        {animatedBg ? '✨' : '💤'}
+        title={
+          animatedBg
+            ? "Disable animated background"
+            : "Enable animated background"
+        }>
+        {animatedBg ? "✨" : "💤"}
       </button>
 
       <button className="work-with-me-btn" onClick={scrollToContact}>
@@ -99,37 +107,12 @@ export const Hero = () => {
 
       <div className="hero-container">
         <div className="hero-content">
-          <div className="line-numbers">
-            <span className="line-number">01</span>
-            <span className="line-number">02</span>
-            <span className="line-number">03</span>
-          </div>
-
           <div className="hero-text">
-            <div className="text-line">
-              <span className="bracket">&lt;</span>
-              <h1 className="hero-greeting">
-                {t.hero.greeting}
-                <span className="hero-name">{t.hero.name}!</span>
-              </h1>
-              <span className="bracket">&gt;</span>
-            </div>
-
-            <div className="text-line">
-              <span className="bracket">&lt;</span>
-              <h2 className="hero-subtitle">
-                <span className="editable">{t.hero.iDesign}</span>
-                <span className="edit-icon">✎</span>
-                {t.hero.andDevelop}
-              </h2>
-              <span className="bracket">&gt;</span>
-            </div>
-
-            <div className="text-line">
-              <h2 className="hero-websites">{t.hero.websites}</h2>
-              <span className="bracket">&gt;</span>
-            </div>
-
+            <h1 className="hero-greeting">
+              {t.hero.greeting}
+              <span className="hero-name">{t.hero.name}</span>
+            </h1>
+            <h2 className="hero-title">{t.hero.title}</h2>
             <p className="hero-description">{t.hero.description}</p>
           </div>
         </div>
@@ -141,4 +124,3 @@ export const Hero = () => {
     </section>
   );
 };
-

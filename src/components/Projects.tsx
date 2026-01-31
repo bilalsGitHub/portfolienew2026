@@ -2,416 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { updateFlag, getFlags, trackRoute, trackInteraction } from '../utils/featureFlags';
+import { projects } from '../data/projectsData';
+import type { Project } from '../types/projects';
 import './Projects.css';
-
-interface Feature {
-  title: string;
-  description: string;
-}
-
-interface TechStack {
-  frontend?: string[];
-  backend?: string[];
-  ui?: string[];
-  features?: string[];
-  ai?: string[];
-}
-
-interface ProjectData {
-  name: string;
-  tagline: string;
-  description: string;
-  features: Feature[];
-  techStack: TechStack;
-}
-
-interface Project {
-  id: string; // Unique identifier for analytics
-  en: ProjectData;
-  de: ProjectData;
-  demoUrl?: string;
-  githubUrl?: string;
-  images?: string[];
-  video?: string; // Video file path
-}
-
-const projects: Project[] = [
-  {
-    id: "habits",
-    en: {
-      name: "HABITS - Premium Habit Tracker",
-      tagline: "Track What Truly Matters",
-      description: "A minimalist, monochrome habit tracking web application inspired by Apple, Notion, and Japanese design philosophy. Built with performance and user experience in mind, featuring real-time analytics, beautiful heatmaps, and a distraction-free interface.",
-      features: [
-        {
-          title: "Minimal Design",
-          description: "Distraction-free black & white interface for maximum focus."
-        },
-        {
-          title: "Visual Heatmaps",
-          description: "Visualize your consistency with interactive heatmaps."
-        },
-        {
-          title: "Smart Analytics",
-          description: "Track your streaks and completion rates."
-        },
-        {
-          title: "Cloud Sync",
-          description: "Automatic synchronization across all your devices."
-        },
-        {
-          title: "High Performance",
-          description: "Fast and smooth user experience without loading times."
-        }
-      ],
-      techStack: {
-        frontend: ["Next.js 16 (Turbopack)", "React 19", "TypeScript", "Tailwind CSS"],
-        backend: ["Supabase (PostgreSQL)", "Supabase Auth", "Row Level Security"],
-        features: ["Server Components", "Client Components", "Optimistic UI", "React Memoization"]
-      }
-    },
-    de: {
-      name: "HABITS - Premium Gewohnheitstracker",
-      tagline: "Verfolge, was wirklich zählt",
-      description: "Eine minimalistische, monochrome Webanwendung zur Gewohnheitsverfolgung, inspiriert von Apple, Notion und japanischer Designphilosophie. Mit Fokus auf Performance und Benutzererfahrung, mit Echtzeit-Analysen, schönen Heatmaps und einer ablenkungsfreien Benutzeroberfläche.",
-      features: [
-        {
-          title: "Minimalistisches Design",
-          description: "Ablenkungsfreie Schwarz-Weiß-Oberfläche für maximalen Fokus."
-        },
-        {
-          title: "Visuelle Heatmaps",
-          description: "Visualisieren Sie Ihre Konsistenz mit interaktiven Heatmaps."
-        },
-        {
-          title: "Intelligente Analysen",
-          description: "Verfolgen Sie Ihre Streaks und Abschlussraten."
-        },
-        {
-          title: "Cloud-Synchronisation",
-          description: "Automatische Synchronisation auf allen Ihren Geräten."
-        },
-        {
-          title: "Hohe Leistung",
-          description: "Schnelle und reibungslose Benutzererfahrung ohne Ladezeiten."
-        }
-      ],
-      techStack: {
-        frontend: ["Next.js 16 (Turbopack)", "React 19", "TypeScript", "Tailwind CSS"],
-        backend: ["Supabase (PostgreSQL)", "Supabase Auth", "Row Level Security"],
-        features: ["Server Components", "Client Components", "Optimistic UI", "React Memoization"]
-      }
-    },
-    images: ["/habitapp.png"]
-  },
-  {
-    id: "eye-tracking",
-    video: "/Eye Tracking 1 .mp4",
-    en: {
-      name: "Eye Tracking - Focus & Reaction Trainer",
-      tagline: "Train Your Eyes, Boost Your Performance",
-      description: "A professional eye tracking web application designed to improve focus, eye coordination, and reaction speed. Perfect for athletes, gamers, students, and anyone looking to enhance their visual performance with scientifically-backed training exercises.",
-      features: [
-        {
-          title: "Training Modes",
-          description: "7 distinct modes for focus and coordination training."
-        },
-        {
-          title: "Customizable",
-          description: "Fully adjustable speed, size, and difficulty settings."
-        },
-        {
-          title: "Real-Time Analytics",
-          description: "Live tracking of accuracy and reaction speed."
-        },
-        {
-          title: "Visual Feedback",
-          description: "Instant feedback to improve your tracking skills."
-        },
-        {
-          title: "Interactive Games",
-          description: "Fun challenges to test and improve reaction time."
-        }
-      ],
-      techStack: {
-        frontend: ["Pure JavaScript (ES6+)", "HTML5", "CSS3"],
-        backend: ["No backend - Runs entirely in browser"],
-        features: ["Canvas Animation (requestAnimationFrame)", "Real-time State Management", "Responsive Design", "Keyboard Shortcuts (F11, ESC)"]
-      }
-    },
-    de: {
-      name: "Eye Tracking - Fokus & Reaktionstrainer",
-      tagline: "Trainiere deine Augen, steigere deine Leistung",
-      description: "Eine professionelle Eye-Tracking-Webanwendung zur Verbesserung von Fokus, Augenkoordination und Reaktionsgeschwindigkeit. Ideal für Sportler, Gamer, Studenten und alle, die ihre visuelle Leistung mit wissenschaftlich fundierten Trainingsübungen verbessern möchten.",
-      features: [
-        {
-          title: "Trainingsmodi",
-          description: "7 verschiedene Modi für Fokus- und Koordinationstraining."
-        },
-        {
-          title: "Anpassbar",
-          description: "Vollständig einstellbare Geschwindigkeit und Schwierigkeit."
-        },
-        {
-          title: "Echtzeit-Analysen",
-          description: "Live-Verfolgung von Genauigkeit und Reaktionsgeschwindigkeit."
-        },
-        {
-          title: "Visuelles Feedback",
-          description: "Sofortiges Feedback zur Verbesserung Ihrer Fähigkeiten."
-        },
-        {
-          title: "Interaktive Spiele",
-          description: "Unterhaltsame Herausforderungen zum Testen der Reaktionszeit."
-        }
-      ],
-      techStack: {
-        frontend: ["Reines JavaScript (ES6+)", "HTML5", "CSS3"],
-        backend: ["Kein Backend - Läuft vollständig im Browser"],
-        features: ["Canvas-Animation (requestAnimationFrame)", "Echtzeit-Zustandsverwaltung", "Responsives Design", "Tastaturkürzel (F11, ESC)"]
-      }
-    },
-    images: ["/eyetracking1.png"]
-  },
-  {
-    id: "blackfocus",
-    en: {
-      name: "BlackFocus - Premium Pomodoro Timer",
-      tagline: "The Timer You've Been Looking For",
-      description: "A beautiful, minimal black Pomodoro timer built with Next.js 16, TypeScript, and TailwindCSS. Perfect for focus sessions, productivity tracking, and deep work. Features real-time analytics, task management, and a distraction-free interface.",
-      features: [
-        {
-          title: "Pomodoro Timer",
-          description: "Customizable timer for focus and break sessions."
-        },
-        {
-          title: "Task Management",
-          description: "Integrated task list to track your work."
-        },
-        {
-          title: "Focus Mode",
-          description: "Distraction-free full-screen interface."
-        },
-        {
-          title: "Analytics",
-          description: "Dashboard with productivity stats and heatmaps."
-        },
-        {
-          title: "Cloud Sync",
-          description: "Syncs your data and works offline (PWA)."
-        }
-      ],
-      techStack: {
-        frontend: ["Next.js 16", "React 19", "TypeScript", "TailwindCSS v4"],
-        backend: ["Supabase (PostgreSQL)", "Supabase Auth", "Row Level Security"],
-        ui: ["Shadcn/UI", "Radix UI", "Lucide Icons"],
-        features: ["Zustand State Management", "PWA Support", "Keyboard Shortcuts", "Optimistic UI"]
-      }
-    },
-    de: {
-      name: "BlackFocus - Premium Pomodoro Timer",
-      tagline: "Der Timer, den Sie gesucht haben",
-      description: "Ein schöner, minimalistischer schwarzer Pomodoro-Timer, gebaut mit Next.js 16, TypeScript und TailwindCSS. Perfekt für Fokussitzungen, Produktivitätsverfolgung und tiefe Arbeit. Mit Echtzeit-Analysen, Aufgabenverwaltung und einer ablenkungsfreien Benutzeroberfläche.",
-      features: [
-        {
-          title: "Pomodoro Timer",
-          description: "Anpassbarer Timer für Fokus- und Pausenzeiten."
-        },
-        {
-          title: "Aufgabenverwaltung",
-          description: "Integrierte Aufgabenliste zur Arbeitsverfolgung."
-        },
-        {
-          title: "Fokus-Modus",
-          description: "Ablenkungsfreie Vollbild-Benutzeroberfläche."
-        },
-        {
-          title: "Analysen",
-          description: "Dashboard mit Produktivitätsstatistiken."
-        },
-        {
-          title: "Cloud-Sync",
-          description: "Synchronisiert Daten und funktioniert offline (PWA)."
-        }
-      ],
-      techStack: {
-        frontend: ["Next.js 16", "React 19", "TypeScript", "TailwindCSS v4"],
-        backend: ["Supabase (PostgreSQL)", "Supabase Auth", "Row Level Security"],
-        ui: ["Shadcn/UI", "Radix UI", "Lucide Icons"],
-        features: ["Zustand State Management", "PWA Support", "Tastenkürzel", "Optimistic UI"]
-      }
-    },
-    demoUrl: "https://blackfocusvercel.vercel.app/",
-    images: ["/blackfocus1.png", "/blackfocus2.png", "/blackfocus3.png"],
-    video: "/Black Focus 1.mp4"
-  },
-  {
-    id: "dilogren",
-    video: "/Dıl Ogren.mp4",
-    en: {
-      name: "DiloGren - AI Language Learning Platform",
-      tagline: "Learn Languages Smarter, Not Harder",
-      description: "An intelligent language learning web application combining AI-powered conversation practice, automatic translations, and spaced repetition flashcards. Supports Turkish, English, and German with instant vocabulary analysis and smart review scheduling.",
-      features: [
-        {
-          title: "AI Assistant",
-          description: "Practice conversations with an intelligent AI tutor."
-        },
-        {
-          title: "Vocabulary Analysis",
-          description: "Instant translation and breakdown of any text."
-        },
-        {
-          title: "Smart Flashcards",
-          description: "Learn efficiently with spaced repetition system."
-        },
-        {
-          title: "Multi-Language",
-          description: "Supports Turkish, English, and German."
-        },
-        {
-          title: "Offline First",
-          description: "Works without internet connection."
-        }
-      ],
-      techStack: {
-        frontend: ["Vanilla JavaScript", "HTML5", "CSS3", "Responsive Design"],
-        backend: ["OpenAI GPT API (for AI analysis)", "LocalStorage API", "Client-side processing"],
-        features: ["AI Sentence Analysis", "Automatic Translation Caching", "Category Management", "Progress Tracking", "Difficulty Levels"]
-      }
-    },
-    de: {
-      name: "DiloGren - KI-Sprachlernen-Plattform",
-      tagline: "Sprachen intelligenter lernen, nicht härter",
-      description: "Eine intelligente Sprachlern-Webanwendung, die KI-gestützte Konversationspraxis, automatische Übersetzungen und Spaced-Repetition-Lernkarten kombiniert. Unterstützt Türkisch, Englisch und Deutsch mit sofortiger Vokabelanalyse und intelligentem Wiederholungsplan.",
-      features: [
-        {
-          title: "KI-Assistent",
-          description: "Üben Sie Konversationen mit einem KI-Tutor."
-        },
-        {
-          title: "Vokabelanalyse",
-          description: "Sofortige Übersetzung und Analyse von Texten."
-        },
-        {
-          title: "Intelligente Lernkarten",
-          description: "Effizient lernen mit Spaced-Repetition-System."
-        },
-        {
-          title: "Mehrsprachig",
-          description: "Unterstützt Türkisch, Englisch und Deutsch."
-        },
-        {
-          title: "Offline-First",
-          description: "Funktioniert auch ohne Internetverbindung."
-        }
-      ],
-      techStack: {
-        frontend: ["Vanilla JavaScript", "HTML5", "CSS3", "Responsive Design"],
-        backend: ["OpenAI GPT API (für KI-Analyse)", "LocalStorage API", "Client-seitige Verarbeitung"],
-        features: ["KI-Satzanalyse", "Automatisches Übersetzungs-Caching", "Kategorienverwaltung", "Fortschrittsverfolgung", "Schwierigkeitsstufen"]
-      }
-    }
-  },
-  {
-    id: "mediflow",
-    video: "/MedıFlow 1.mp4",
-    en: {
-      name: "MediFlow - Medical Consultation Assistant",
-      tagline: "The AI Assistant That Helps Doctors Focus",
-      description: "A modern web application that automatically records doctor-patient consultations, analyzes them with AI, and converts them into structured medical notes. Enables doctors to focus solely on patients during consultations, reducing note-taking time by 80%+. Powered by OpenAI Whisper and GPT technologies, with secure data management via Supabase.",
-      features: [
-        {
-          title: "Auto Recording",
-          description: "Automatic voice recording and transcription of consultations."
-        },
-        {
-          title: "AI Analysis",
-          description: "Intelligent medical analysis of patient symptoms."
-        },
-        {
-          title: "SOAP Notes",
-          description: "Automatically generates structured medical notes."
-        },
-        {
-          title: "ICD-10 Support",
-          description: "Smart code suggestions and integration."
-        },
-        {
-          title: "Secure Data",
-          description: "Encrypted storage and secure authentication."
-        },
-        {
-          title: "Patient Tools",
-          description: "Generate messages and referral documents."
-        },
-        {
-          title: "Note Creation",
-          description: "Flexible options via voice or typing with templates."
-        },
-        {
-          title: "Dashboard",
-          description: "Comprehensive view of all consultations."
-        }
-      ],
-      techStack: {
-        frontend: ["Next.js 14", "React 18", "TypeScript", "TailwindCSS"],
-        backend: ["Next.js API Routes", "Supabase (PostgreSQL)", "Supabase Auth", "Row Level Security"],
-        ai: ["OpenAI Whisper (Speech-to-Text)", "OpenAI GPT-4o-mini (Text Analysis)"],
-        ui: ["Lucide React Icons", "Custom Components", "Minimal Design"],
-        features: ["MediaRecorder API", "Local Storage", "Cloud Sync", "PWA Ready"]
-      }
-    },
-    de: {
-      name: "MediFlow - Ärztlicher Konsultationsassistent",
-      tagline: "Der KI-Assistent, der Ärzten hilft, sich zu konzentrieren",
-      description: "Eine moderne Webanwendung, die Arzt-Patienten-Konsultationen automatisch aufzeichnet, sie mit KI analysiert und in strukturierte medizinische Notizen umwandelt. Ermöglicht es Ärzten, sich während der Konsultationen ausschließlich auf Patienten zu konzentrieren und reduziert die Notizzeit um über 80%. Angetrieben von OpenAI Whisper und GPT-Technologien, mit sicherer Datenverwaltung über Supabase.",
-      features: [
-        {
-          title: "Auto-Aufnahme",
-          description: "Automatische Sprachaufnahme und Transkription."
-        },
-        {
-          title: "KI-Analyse",
-          description: "Intelligente medizinische Analyse von Symptomen."
-        },
-        {
-          title: "SOAP-Notizen",
-          description: "Generiert automatisch strukturierte Arztnotizen."
-        },
-        {
-          title: "ICD-10 Support",
-          description: "Intelligente Code-Vorschläge und Integration."
-        },
-        {
-          title: "Datensicherheit",
-          description: "Verschlüsselte Speicherung und sicherer Zugang."
-        },
-        {
-          title: "Patienten-Tools",
-          description: "Erstellung von Nachrichten und Überweisungen."
-        },
-        {
-          title: "Notizerstellung",
-          description: "Flexibel per Sprache oder Text mit Vorlagen."
-        },
-        {
-          title: "Dashboard",
-          description: "Umfassende Übersicht aller Konsultationen."
-        }
-      ],
-      techStack: {
-        frontend: ["Next.js 14", "React 18", "TypeScript", "TailwindCSS"],
-        backend: ["Next.js API Routes", "Supabase (PostgreSQL)", "Supabase Auth", "Row Level Security"],
-        ai: ["OpenAI Whisper (Sprache-zu-Text)", "OpenAI GPT-4o-mini (Textanalyse)"],
-        ui: ["Lucide React Icons", "Benutzerdefinierte Komponenten", "Minimalistisches Design"],
-        features: ["MediaRecorder API", "Lokaler Speicher", "Cloud-Sync", "PWA-Bereit"]
-      }
-    },
-    images: ["/voiceapp1.png", "/voiceapp2.png", "/voiceapp3.png"]
-  }
-];
-
 const VideoModal = ({ videoUrl, projectId, onClose }: { videoUrl: string; projectId: string; onClose: () => void }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -705,7 +298,13 @@ export const Projects = () => {
     videoUrl: '', 
     projectId: '' 
   });
+  const [selectedCategory, setSelectedCategory] = useState<'all' | 'fullstack' | 'frontend-api' | 'frontend-pure'>('all');
   const { language, t } = useLanguage();
+
+  // Kategorilere göre projeleri filtrele
+  const filteredProjects = selectedCategory === 'all' 
+    ? projects 
+    : projects.filter(p => p.category === selectedCategory);
 
   const openVideoModal = (videoUrl: string, projectId: string) => {
     setVideoModal({ isOpen: true, videoUrl, projectId });
@@ -715,17 +314,19 @@ export const Projects = () => {
     setVideoModal({ isOpen: false, videoUrl: '', projectId: '' });
   };
 
-  const toggleFeatures = (index: number) => {
+  const toggleFeatures = (projectId: string) => {
     const newSet = new Set(expandedFeatures);
-    const projectId = projects[index].id;
-    const projectName = projects[index][language].name;
+    const project = projects.find(p => p.id === projectId);
+    if (!project) return;
     
-    if (newSet.has(index)) {
-      newSet.delete(index);
+    const projectName = project[language].name;
+    
+    if (newSet.has(projects.indexOf(project))) {
+      newSet.delete(projects.indexOf(project));
       // Track collapse
       trackInteraction('features_collapse', { projectId, projectName });
     } else {
-      newSet.add(index);
+      newSet.add(projects.indexOf(project));
       // Track route for features view
       trackRoute(`/projects/${projectId}/features`, { 
         projectId, 
@@ -740,17 +341,19 @@ export const Projects = () => {
     setExpandedFeatures(newSet);
   };
 
-  const toggleTechStack = (index: number) => {
+  const toggleTechStack = (projectId: string) => {
     const newSet = new Set(expandedTechStack);
-    const projectId = projects[index].id;
-    const projectName = projects[index][language].name;
+    const project = projects.find(p => p.id === projectId);
+    if (!project) return;
     
-    if (newSet.has(index)) {
-      newSet.delete(index);
+    const projectName = project[language].name;
+    
+    if (newSet.has(projects.indexOf(project))) {
+      newSet.delete(projects.indexOf(project));
       // Track collapse
       trackInteraction('techstack_collapse', { projectId, projectName });
     } else {
-      newSet.add(index);
+      newSet.add(projects.indexOf(project));
       // Track route for tech stack view
       trackRoute(`/projects/${projectId}/tech-stack`, { 
         projectId, 
@@ -765,180 +368,232 @@ export const Projects = () => {
     setExpandedTechStack(newSet);
   };
 
+  const renderProjectCard = (project: Project) => {
+    const projectData = project[language];
+    const projectIndex = projects.indexOf(project);
+    const isFeaturesExpanded = expandedFeatures.has(projectIndex);
+    const isTechStackExpanded = expandedTechStack.has(projectIndex);
+
+    return (
+      <div 
+        key={project.id} 
+        className="project-card"
+        onClick={(e) => {
+          // Only track click if it's not on an interactive element
+          const target = e.target as HTMLElement;
+          if (!target.closest('button') && !target.closest('a') && !target.closest('img')) {
+            // Track route for project view
+            trackRoute(`/projects/${project.id}`, { 
+              projectId: project.id, 
+              projectName: projectData.name,
+              action: 'project_click'
+            });
+            
+            // Track viewed projects
+            const flags = getFlags();
+            const viewedProjects = Array.isArray(flags.viewedProjects) 
+              ? flags.viewedProjects 
+              : [];
+            
+            if (!viewedProjects.includes(project.id)) {
+              updateFlag('viewedProjects', [...viewedProjects, project.id]);
+            }
+          }
+        }}
+      >
+        {project.images && project.images.length > 0 && (
+          <div className="project-images">
+            <ImageCarousel images={project.images} projectId={project.id} />
+          </div>
+        )}
+        <div className="project-header">
+          <div className="project-title-section">
+            <div className="project-title-row">
+              <h3 className="project-title">{projectData.name}</h3>
+              {project.video && (
+                <button
+                  className="video-play-btn"
+                  onClick={() => openVideoModal(project.video!, project.id)}
+                  aria-label="Watch project video"
+                  title="Watch video demo"
+                >
+                  ▶ Video
+                </button>
+              )}
+            </div>
+            {project.demoUrl && (
+              <a 
+                href={project.demoUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="project-url"
+                onClick={() => {
+                  trackRoute(`/projects/${project.id}/demo`, { 
+                    projectId: project.id, 
+                    projectName: projectData.name,
+                    demoUrl: project.demoUrl,
+                    action: 'demo_link_click'
+                  });
+                }}
+              >
+                {project.demoUrl}
+              </a>
+            )}
+            <p className="project-tagline">{projectData.tagline}</p>
+          </div>
+        </div>
+        
+        <div className="project-description">
+          {projectData.description}
+        </div>
+
+        <div className="project-section">
+          <button
+            className="section-toggle-btn"
+            onClick={() => toggleFeatures(project.id)}
+          >
+            <span className="section-toggle-title">{t.projects.features}</span>
+            <span className="section-toggle-icon">{isFeaturesExpanded ? '−' : '+'}</span>
+          </button>
+          
+          {isFeaturesExpanded && (
+            <ul className="features-list">
+              {projectData.features.map((feature, i) => (
+                <li key={i} className="feature-item">
+                  <span className="feature-title">• {feature.title}:</span>
+                  <span className="feature-desc">{feature.description}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <div className="project-section">
+          <button
+            className="section-toggle-btn"
+            onClick={() => toggleTechStack(project.id)}
+          >
+            <span className="section-toggle-title">{t.projects.techStack}</span>
+            <span className="section-toggle-icon">{isTechStackExpanded ? '−' : '+'}</span>
+          </button>
+          
+          {isTechStackExpanded && (
+            <div className="tech-sections">
+              {projectData.techStack.frontend && (
+                <div className="tech-section">
+                  <span className="tech-label">{t.projects.tech.frontend}</span>
+                  <div className="tech-tags">
+                    {projectData.techStack.frontend.map((tech, i) => (
+                      <span key={i} className="tech-tag">{tech}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {projectData.techStack.backend && (
+                <div className="tech-section">
+                  <span className="tech-label">{t.projects.tech.backend}</span>
+                  <div className="tech-tags">
+                    {projectData.techStack.backend.map((tech, i) => (
+                      <span key={i} className="tech-tag">{tech}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {projectData.techStack.ui && (
+                <div className="tech-section">
+                  <span className="tech-label">{t.projects.tech.ui}</span>
+                  <div className="tech-tags">
+                    {projectData.techStack.ui.map((tech, i) => (
+                      <span key={i} className="tech-tag">{tech}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {projectData.techStack.features && (
+                <div className="tech-section">
+                  <span className="tech-label">{t.projects.tech.features}</span>
+                  <div className="tech-tags">
+                    {projectData.techStack.features.map((tech, i) => (
+                      <span key={i} className="tech-tag">{tech}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {projectData.techStack.ai && (
+                <div className="tech-section">
+                  <span className="tech-label">{t.projects.tech.ai}</span>
+                  <div className="tech-tags">
+                    {projectData.techStack.ai.map((tech, i) => (
+                      <span key={i} className="tech-tag">{tech}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {projectData.techStack.stateManagement && (
+                <div className="tech-section">
+                  <span className="tech-label">{t.projects.tech.stateManagement}</span>
+                  <div className="tech-tags">
+                    {projectData.techStack.stateManagement.map((tech, i) => (
+                      <span key={i} className="tech-tag">{tech}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {projectData.techStack.storage && (
+                <div className="tech-section">
+                  <span className="tech-label">{t.projects.tech.storage}</span>
+                  <div className="tech-tags">
+                    {projectData.techStack.storage.map((tech, i) => (
+                      <span key={i} className="tech-tag">{tech}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <section id="projects" className="projects">
       <div className="projects-container">
         <div className="projects-header">
           <h2 className="section-title">{t.projects.title}</h2>
         </div>
+
+        {/* Category Filter Buttons */}
+        <div className="category-filters">
+          <button 
+            className={`category-filter-btn ${selectedCategory === 'all' ? 'active' : ''}`}
+            onClick={() => setSelectedCategory('all')}
+          >
+            {t.projects.categories.all}
+          </button>
+          <button 
+            className={`category-filter-btn ${selectedCategory === 'fullstack' ? 'active' : ''}`}
+            onClick={() => setSelectedCategory('fullstack')}
+          >
+            {t.projects.categories.fullstack}
+          </button>
+          <button 
+            className={`category-filter-btn ${selectedCategory === 'frontend-api' ? 'active' : ''}`}
+            onClick={() => setSelectedCategory('frontend-api')}
+          >
+            {t.projects.categories.frontendApi}
+          </button>
+          <button 
+            className={`category-filter-btn ${selectedCategory === 'frontend-pure' ? 'active' : ''}`}
+            onClick={() => setSelectedCategory('frontend-pure')}
+          >
+            {t.projects.categories.frontendPure}
+          </button>
+        </div>
+
+        {/* Projects Grid */}
         <div className="projects-grid">
-          {projects.map((project, index) => {
-            const projectData = project[language];
-            const isFeaturesExpanded = expandedFeatures.has(index);
-            const isTechStackExpanded = expandedTechStack.has(index);
-
-            return (
-              <div 
-                key={index} 
-                className="project-card"
-                onClick={(e) => {
-                  // Only track click if it's not on an interactive element
-                  const target = e.target as HTMLElement;
-                  if (!target.closest('button') && !target.closest('a') && !target.closest('img')) {
-                    // Track route for project view
-                    trackRoute(`/projects/${project.id}`, { 
-                      projectId: project.id, 
-                      projectName: projectData.name,
-                      action: 'project_click'
-                    });
-                    
-                    // Track viewed projects
-                    const flags = getFlags();
-                    const viewedProjects = Array.isArray(flags.viewedProjects) 
-                      ? flags.viewedProjects 
-                      : [];
-                    
-                    if (!viewedProjects.includes(project.id)) {
-                      updateFlag('viewedProjects', [...viewedProjects, project.id]);
-                    }
-                  }
-                }}
-              >
-                {project.images && project.images.length > 0 && (
-                  <div className="project-images">
-                    <ImageCarousel images={project.images} projectId={project.id} />
-                  </div>
-                )}
-                <div className="project-header">
-                  <div className="project-title-section">
-                    <div className="project-title-row">
-                      <h3 className="project-title">{projectData.name}</h3>
-                      {project.video && (
-                        <button
-                          className="video-play-btn"
-                          onClick={() => openVideoModal(project.video!, project.id)}
-                          aria-label="Watch project video"
-                          title="Watch video demo"
-                        >
-                          ▶ Video
-                        </button>
-                      )}
-                    </div>
-                    {project.demoUrl && (
-                      <a 
-                        href={project.demoUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="project-url"
-                        onClick={() => {
-                          trackRoute(`/projects/${project.id}/demo`, { 
-                            projectId: project.id, 
-                            projectName: projectData.name,
-                            demoUrl: project.demoUrl,
-                            action: 'demo_link_click'
-                          });
-                        }}
-                      >
-                        {project.demoUrl}
-                      </a>
-                    )}
-                    <p className="project-tagline">{projectData.tagline}</p>
-                  </div>
-                </div>
-                
-                <div className="project-description">
-                  {projectData.description}
-                </div>
-
-                <div className="project-section">
-                  <button
-                    className="section-toggle-btn"
-                    onClick={() => toggleFeatures(index)}
-                  >
-                    <span className="section-toggle-title">{t.projects.features}</span>
-                    <span className="section-toggle-icon">{isFeaturesExpanded ? '−' : '+'}</span>
-                  </button>
-                  
-                  {isFeaturesExpanded && (
-                    <ul className="features-list">
-                      {projectData.features.map((feature, i) => (
-                        <li key={i} className="feature-item">
-                          <span className="feature-title">• {feature.title}:</span>
-                          <span className="feature-desc">{feature.description}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-
-                <div className="project-section">
-                  <button
-                    className="section-toggle-btn"
-                    onClick={() => toggleTechStack(index)}
-                  >
-                    <span className="section-toggle-title">{t.projects.techStack}</span>
-                    <span className="section-toggle-icon">{isTechStackExpanded ? '−' : '+'}</span>
-                  </button>
-                  
-                  {isTechStackExpanded && (
-                    <div className="tech-sections">
-                      {projectData.techStack.frontend && (
-                        <div className="tech-section">
-                          <span className="tech-label">{t.projects.tech.frontend}</span>
-                          <div className="tech-tags">
-                            {projectData.techStack.frontend.map((tech, i) => (
-                              <span key={i} className="tech-tag">{tech}</span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      {projectData.techStack.backend && (
-                        <div className="tech-section">
-                          <span className="tech-label">{t.projects.tech.backend}</span>
-                          <div className="tech-tags">
-                            {projectData.techStack.backend.map((tech, i) => (
-                              <span key={i} className="tech-tag">{tech}</span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      {projectData.techStack.ui && (
-                        <div className="tech-section">
-                          <span className="tech-label">{t.projects.tech.ui}</span>
-                          <div className="tech-tags">
-                            {projectData.techStack.ui.map((tech, i) => (
-                              <span key={i} className="tech-tag">{tech}</span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      {projectData.techStack.features && (
-                        <div className="tech-section">
-                          <span className="tech-label">{t.projects.tech.features}</span>
-                          <div className="tech-tags">
-                            {projectData.techStack.features.map((tech, i) => (
-                              <span key={i} className="tech-tag">{tech}</span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      {projectData.techStack.ai && (
-                        <div className="tech-section">
-                          <span className="tech-label">{t.projects.tech.ai}</span>
-                          <div className="tech-tags">
-                            {projectData.techStack.ai.map((tech, i) => (
-                              <span key={i} className="tech-tag">{tech}</span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-
-              </div>
-            );
-          })}
+          {filteredProjects.map(project => renderProjectCard(project))}
         </div>
         
         {/* Video Modal */}

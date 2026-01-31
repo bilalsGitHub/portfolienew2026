@@ -143,7 +143,7 @@
 }
 
 .hero-container {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
   width: 100%;
   position: relative;
@@ -152,106 +152,52 @@
 
 .hero-content {
   display: flex;
-  gap: 3rem;
-  align-items: flex-start;
-}
-
-.line-numbers {
-  display: flex;
-  flex-direction: column;
-  gap: 3.5rem;
-  padding-top: 0.5rem;
-}
-
-.line-number {
-  font-size: 1rem;
-  color: var(--text-tertiary);
-  font-weight: 500;
-  opacity: 0.5;
-  font-family: 'Courier New', monospace;
-  animation: fadeIn 0.5s ease-out backwards;
-}
-
-.line-number:nth-child(1) {
-  animation-delay: 0s;
-}
-
-.line-number:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.line-number:nth-child(3) {
-  animation-delay: 0.4s;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 0.5;
-  }
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .hero-text {
-  flex: 1;
-}
-
-.text-line {
-  display: flex;
-  align-items: baseline;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  position: relative;
-}
-
-.bracket {
-  font-size: 3.5rem;
-  color: var(--text-tertiary);
-  opacity: 0.3;
-  font-weight: 300;
-  font-family: 'Courier New', monospace;
-  animation: fadeInScale 0.6s ease-out backwards;
-}
-
-@keyframes fadeInScale {
-  from {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  to {
-    opacity: 0.3;
-    transform: scale(1);
-  }
+  max-width: 900px;
 }
 
 .hero-greeting {
-  font-size: 5rem;
+  font-size: 1.5rem;
   font-weight: 400;
-  color: var(--text-primary);
-  margin: 0;
-  line-height: 1.2;
-  animation: fadeInUp 0.8s ease-out;
+  color: var(--text-secondary);
+  margin: 0 0 1rem 0;
+  line-height: 1.4;
+  animation: fadeInUp 0.6s ease-out;
 }
 
 .hero-name {
-  font-style: italic;
-  font-weight: 600;
+  display: block;
+  font-size: 5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 0.5rem;
   background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: gradientShift 3s ease-in-out infinite;
-  background-size: 200% 200%;
+  animation: fadeInUp 0.8s ease-out 0.2s backwards;
 }
 
-@keyframes gradientShift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 2rem 0 1.5rem 0;
+  line-height: 1.3;
+  animation: fadeInUp 0.8s ease-out 0.4s backwards;
+}
+
+.hero-description {
+  font-size: 1.3rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.7;
+  animation: fadeInUp 1s ease-out 0.6s backwards;
 }
 
 @keyframes fadeInUp {
@@ -263,89 +209,6 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-@keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes bounceIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  70% {
-    transform: scale(0.9);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.hero-subtitle {
-  font-size: 5.5rem;
-  font-weight: 400;
-  color: var(--text-primary);
-  margin: 0;
-  line-height: 1.2;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  animation: fadeInRight 1s ease-out 0.2s backwards;
-}
-
-.editable {
-  font-style: italic;
-  position: relative;
-  padding-bottom: 0.2rem;
-  border-bottom: 3px solid var(--accent-primary);
-  animation: underlineGrow 0.8s ease-out 0.5s backwards;
-}
-
-@keyframes underlineGrow {
-  from {
-    border-bottom-width: 0px;
-  }
-  to {
-    border-bottom-width: 3px;
-  }
-}
-
-.edit-icon {
-  color: var(--accent-primary);
-  font-size: 2.5rem;
-  opacity: 0.8;
-  animation: bounceIn 0.6s ease-out 0.8s backwards;
-}
-
-.hero-websites {
-  font-size: 5.5rem;
-  font-weight: 400;
-  color: var(--text-primary);
-  margin: 0;
-  line-height: 1.2;
-  margin-left: 4rem;
-  animation: fadeInRight 1s ease-out 0.4s backwards;
-}
-
-.hero-description {
-  font-size: 1.2rem;
-  color: var(--text-secondary);
-  margin: 3rem 0 0 4rem;
-  max-width: 600px;
-  line-height: 1.7;
-  animation: fadeInUp 1s ease-out 0.6s backwards;
 }
 
 .works-tab {
@@ -380,24 +243,16 @@
 }
 
 @media (max-width: 1200px) {
-  .hero-greeting {
+  .hero-name {
     font-size: 4rem;
   }
 
-  .hero-subtitle {
-    font-size: 4.5rem;
-  }
-
-  .hero-websites {
-    font-size: 4.5rem;
-  }
-
-  .bracket {
-    font-size: 3rem;
-  }
-
-  .edit-icon {
+  .hero-title {
     font-size: 2rem;
+  }
+
+  .hero-description {
+    font-size: 1.2rem;
   }
 }
 
@@ -407,30 +262,19 @@
   }
 
   .hero-greeting {
-    font-size: 3rem;
+    font-size: 1.3rem;
   }
 
-  .hero-subtitle {
+  .hero-name {
     font-size: 3.5rem;
-    flex-wrap: wrap;
   }
 
-  .hero-websites {
-    font-size: 3.5rem;
-    margin-left: 2rem;
+  .hero-title {
+    font-size: 1.8rem;
   }
 
   .hero-description {
     font-size: 1.1rem;
-    margin-left: 2rem;
-  }
-
-  .bracket {
-    font-size: 2.5rem;
-  }
-
-  .edit-icon {
-    font-size: 1.8rem;
   }
 
   .work-with-me-btn {
@@ -487,56 +331,22 @@
     padding-top: 1rem;
   }
 
-  .hero-content {
-    gap: 1rem;
-  }
-
-  .line-numbers {
-    gap: 2rem;
-    font-size: 0.7rem;
-    padding-top: 0.3rem;
-  }
-
   .hero-greeting {
-    font-size: 2rem;
-    line-height: 1.3;
+    font-size: 1.1rem;
   }
 
-  .hero-subtitle {
-    font-size: 2.2rem;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    line-height: 1.3;
+  .hero-name {
+    font-size: 2.8rem;
   }
 
-  .hero-websites {
-    font-size: 2.2rem;
-    margin-left: 0.5rem;
-    line-height: 1.3;
+  .hero-title {
+    font-size: 1.5rem;
+    margin: 1.5rem 0 1rem 0;
   }
 
   .hero-description {
     font-size: 1rem;
-    margin: 2rem 0 0 0.5rem;
-    max-width: 100%;
-    line-height: 1.6;
-  }
-
-  .bracket {
-    font-size: 1.2rem;
-  }
-
-  .edit-icon {
-    font-size: 1.5rem;
-  }
-
-  .text-line {
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .editable {
-    border-bottom-width: 2px;
+    padding: 0 1rem;
   }
 
   .work-with-me-btn {
@@ -576,44 +386,22 @@
     height: 200px;
   }
 
-  .hero-content {
-    gap: 0.75rem;
-  }
-
-  .line-numbers {
-    gap: 1.5rem;
-    font-size: 0.65rem;
-  }
-
   .hero-greeting {
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
 
   .hero-name {
-    display: block;
+    font-size: 2.2rem;
   }
 
-  .hero-subtitle {
-    font-size: 1.8rem;
-    gap: 0.3rem;
-  }
-
-  .hero-websites {
-    font-size: 1.8rem;
-    margin-left: 0.3rem;
+  .hero-title {
+    font-size: 1.3rem;
+    margin: 1.2rem 0 0.8rem 0;
   }
 
   .hero-description {
     font-size: 0.95rem;
-    margin: 1.5rem 0 0 0.3rem;
-  }
-
-  .bracket {
-    font-size: 1rem;
-  }
-
-  .edit-icon {
-    font-size: 1.2rem;
+    padding: 0 0.5rem;
   }
 
   .work-with-me-btn {
