@@ -78,6 +78,7 @@ export const About = () => {
               <p className="bio-text" dangerouslySetInnerHTML={{ __html: t.about.bio2 }} />
               <p className="bio-text" dangerouslySetInnerHTML={{ __html: t.about.bio3 }} />
               <p className="bio-text" dangerouslySetInnerHTML={{ __html: t.about.bio4 }} />
+              <p className="bio-text" dangerouslySetInnerHTML={{ __html: t.about.bio5 }} />
             </div>
 
             <div className="skills-section">

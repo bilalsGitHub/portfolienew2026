@@ -114,6 +114,46 @@ export const Hero = () => {
             </h1>
             <h2 className="hero-title">{t.hero.title}</h2>
             <p className="hero-description">{t.hero.description}</p>
+
+            {/* Achievement Stats */}
+            <div className="achievement-stats">
+              <div className="stat-item">
+                <div className="stat-circle">
+                  <span className="stat-number">2+</span>
+                </div>
+                <span className="stat-label">{t.hero.yearsExperience}</span>
+              </div>
+              <div className="stat-item">
+                <div className="stat-circle">
+                  <span className="stat-number">7+</span>
+                </div>
+                <span className="stat-label">{t.hero.webApps}</span>
+              </div>
+              <div className="stat-item">
+                <div className="stat-circle">
+                  <span className="stat-number">4+</span>
+                </div>
+                <span className="stat-label">{t.hero.mobileApps}</span>
+              </div>
+              <div className="stat-item">
+                <div className="stat-circle">
+                  <span className="stat-number">5+</span>
+                </div>
+                <span className="stat-label">{t.hero.certificates}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Profile Image */}
+          <div className="hero-profile">
+            <div className="profile-image-wrapper">
+              <img 
+                src="/profile.jpg" 
+                alt="Bilal Hinislioglu" 
+                className="profile-image"
+              />
+              <div className="profile-ring"></div>
+            </div>
           </div>
         </div>
       </div>

@@ -34,16 +34,6 @@ export const Header = ({ activeSection, onSectionChange }: HeaderProps) => {
     <>
       <aside className={`sidebar ${isMenuOpen ? 'sidebar-open' : ''}`}>
         <div className="sidebar-content">
-          <div className="profile-section">
-            <img 
-              src="/profile.jpg" 
-              alt="Bilal Hinislioglu" 
-              className="profile-image"
-              onClick={() => scrollToSection('home')}
-              style={{ cursor: 'pointer' }}
-            />
-          </div>
-
           <nav className="sidebar-nav">
             <ul className="sidebar-nav-list">
               <li>
@@ -68,6 +58,18 @@ export const Header = ({ activeSection, onSectionChange }: HeaderProps) => {
                   }}
                 >
                   <span className="nav-text">{t.header.projects}</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#mobile-apps"
+                  className={`sidebar-link ${activeSection === 'mobile-apps' ? 'active' : ''}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection('mobile-apps');
+                  }}
+                >
+                  <span className="nav-text">{t.header.mobileApps}</span>
                 </a>
               </li>
               <li>
